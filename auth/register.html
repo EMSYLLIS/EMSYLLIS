@@ -1,1 +1,20 @@
-<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Kayıt | EMSYLLIS</title><link rel="canonical" href="https://emsyllis.tech/auth/register.html"><link rel="stylesheet" href="/assets/css/styles.css"></head><body><div id="site-header"></div><main class="wrap"><section class="form-shell"><div class="eyebrow">CREATE ACCOUNT</div><h1>Hesap oluştur.</h1><p>Hesap açmak için e-posta ve güçlü bir parola kullan.</p><div class="notice">Kayıt sistemi Back4app bağlantısı ve e-posta doğrulaması tamamlandığında etkinleşir. Gerçek kişisel belgelerini veya gereksiz özel bilgilerini bu forma yazma.</div><form data-auth-form="register"><label class="field"><span>E-posta</span><input name="email" type="email" autocomplete="email" required></label><label class="field"><span>Şifre (en az 10 karakter)</span><input name="password" type="password" minlength="10" autocomplete="new-password" required></label><label class="field"><span>Şifreyi tekrar gir</span><input name="confirm" type="password" minlength="10" autocomplete="new-password" required></label><button class="btn btn-primary" type="submit">Kayıt ol</button><p class="form-message" aria-live="polite"></p></form><div class="form-links"><a href="/auth/login.html">Zaten hesabım var</a><a href="/legal/privacy.html">Gizlilik</a></div></section></main><div id="site-footer"></div><script src="/assets/js/site.js" defer></script><script src="https://cdn.jsdelivr.net/npm/parse@4.3.0/dist/parse.min.js"></script><script src="/assets/js/config.js"></script><script src="/assets/js/auth.js" defer></script><script>document.querySelector('[data-auth-form]').addEventListener('submit',e=>{const a=e.currentTarget.querySelector('[name=password]').value,b=e.currentTarget.querySelector('[name=confirm]').value;if(a!==b){e.preventDefault();document.querySelector('.form-message').textContent='Şifreler eşleşmiyor.';}});</script></body></html>
+<!doctype html>
+<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hesap oluştur | EMSYLLIS</title><meta name="description" content="EMSYLLIS hesabını e-posta doğrulamasıyla oluştur.">
+<link rel="canonical" href="https://emsyllis.tech/auth/register.html"><link rel="stylesheet" href="/assets/css/styles.css"></head>
+<body><div id="site-header"></div><main class="wrap"><section class="form-shell">
+<div class="eyebrow">CREATE ACCOUNT / EMAIL VERIFICATION</div><h1>Hesabını oluştur.</h1>
+<p>Önce e-posta adresini doğrula; ardından EMSYLLIS hesabın oluşturulsun.</p>
+<div class="notice">Doğrulama kodu 10 dakika geçerlidir. Kodunu kimseyle paylaşma. Şifren yalnızca hesap oluşturma isteği sırasında güvenli bağlantıyla gönderilir.</div>
+<form data-auth-form="register" novalidate>
+<label class="field"><span>E-posta adresi</span><input name="email" type="email" autocomplete="email" maxlength="180" required></label>
+<label class="field"><span>Şifre (en az 10 karakter)</span><input name="password" type="password" minlength="10" maxlength="128" autocomplete="new-password" required></label>
+<label class="field"><span>Şifreyi tekrar gir</span><input name="confirm" type="password" minlength="10" maxlength="128" autocomplete="new-password" required></label>
+<button class="btn btn-primary" type="button" data-send-code>Kodu e-postama gönder</button>
+<label class="field" data-code-field hidden><span>E-posta doğrulama kodu</span><input name="code" type="text" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" autocomplete="one-time-code" placeholder="6 haneli kod"></label>
+<button class="btn btn-primary" type="submit" data-complete-registration hidden>Doğrula ve hesabı oluştur</button>
+<p class="form-message" aria-live="polite"></p>
+</form>
+<div class="form-links"><a href="/auth/login.html">Zaten hesabım var</a><a href="/legal/privacy.html">Gizlilik politikası</a></div>
+</section></main><div id="site-footer"></div>
+<script src="/assets/js/site.js" defer></script><script src="https://cdn.jsdelivr.net/npm/parse@4.3.0/dist/parse.min.js"></script><script src="/assets/js/config.js"></script><script src="/assets/js/auth.js" defer></script></body></html>
