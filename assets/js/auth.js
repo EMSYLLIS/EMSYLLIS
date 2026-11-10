@@ -6,9 +6,47 @@
     Parse.serverURL = cfg.SERVER_URL || 'https://parseapi.back4app.com';
   }
   const form = document.querySelector('[data-auth-form]');
-  if (!form) return;
-  const message = form.querySelector('.form-message');
+  const message = form && form.querySelector('.form-message');
   const say = text => { if (message) message.textContent = text; };
+  const explain = error => {
+    const raw = String(error && error.message || '');
+    if (/Invalid function|function.*not found|does not exist/i.test(raw)) {
+      return 'E-posta doğrulama servisi henüz Back4App Cloud Code üzerinde yayımlanmamış. Yönetici Cloud Code dağıtımını tamamlamalı.';
+    }
+    if (/Email verification server settings are incomplete/i.test(raw)) {
+      return 'E-posta servisi sunucu ayarları eksik. Back4App ortam değişkenleri kontrol edilmeli.';
+    }
+    return raw || 'İşlem tamamlanamadı. Bilgileri kontrol edip tekrar dene.';
+  };
+
+  // Accessible show/hide controls for every password field on all EMSYLLIS auth screens.
+  document.querySelectorAll('input[type="password"]').forEach((input, index) => {
+    if (input.dataset.visibilityReady) return;
+    input.dataset.visibilityReady = 'true';
+    const label = input.closest('.field') || input.parentElement;
+    if (!label) return;
+    const wrap = document.createElement('div');
+    wrap.className = 'password-control';
+    input.parentNode.insertBefore(wrap, input);
+    wrap.appendChild(input);
+    const toggle = document.createElement('button');
+    toggle.type = 'button';
+    toggle.className = 'password-toggle';
+    toggle.textContent = 'Göster';
+    toggle.setAttribute('aria-label', 'Şifreyi göster');
+    toggle.setAttribute('aria-pressed', 'false');
+    toggle.addEventListener('click', () => {
+      const reveal = input.type === 'password';
+      input.type = reveal ? 'text' : 'password';
+      toggle.textContent = reveal ? 'Gizle' : 'Göster';
+      toggle.setAttribute('aria-label', reveal ? 'Şifreyi gizle' : 'Şifreyi göster');
+      toggle.setAttribute('aria-pressed', String(reveal));
+      input.focus();
+    });
+    wrap.appendChild(toggle);
+  });
+
+  if (!form) return;
   const mode = form.dataset.authForm;
 
   if (mode === 'register') {
@@ -23,7 +61,7 @@
     let pendingPassword = '';
 
     sendButton.addEventListener('click', async () => {
-      if (!configured) return say('Back4app EMSYLLIS bağlantısı henüz yapılandırılmadı.');
+      if (!configured) return say('Back4App EMSYLLIS bağlantısı yapılandırılmamış.');
       const email = String(emailInput.value || '').trim().toLowerCase();
       const password = String(passwordInput.value || '');
       const confirmation = String(confirmInput.value || '');
@@ -39,10 +77,10 @@
         codeField.hidden = false;
         completeButton.hidden = false;
         sendButton.textContent = 'Kodu yeniden gönder';
-        say(result.message || 'Kod gönderildi. Gelen kutunu ve spam klasörünü kontrol et.');
+        say(result.message || 'İstek alındı. Gelen kutunu ve spam klasörünü kontrol et.');
         codeInput.focus();
       } catch (error) {
-        say(error && error.message ? error.message : 'Kod gönderilemedi. Biraz sonra tekrar dene.');
+        say(explain(error));
       } finally {
         sendButton.disabled = false;
       }
@@ -50,14 +88,14 @@
 
     form.addEventListener('submit', async event => {
       event.preventDefault();
-      if (!configured) return say('Back4app EMSYLLIS bağlantısı henüz yapılandırılmadı.');
+      if (!configured) return say('Back4App EMSYLLIS bağlantısı yapılandırılmamış.');
       const email = String(emailInput.value || '').trim().toLowerCase();
       if (!pendingEmail || email !== pendingEmail || !pendingPassword) {
         return say('Önce bu e-posta adresine doğrulama kodu gönder.');
       }
       const currentPassword = String(passwordInput.value || '');
       if (currentPassword !== pendingPassword || currentPassword !== String(confirmInput.value || '')) {
-        return say('Şifre alanları değişti. Yeni kod isteyerek kayıt adımını yeniden başlat.');
+        return say('Şifre alanları değişti. Kayıt adımını yeniden başlat.');
       }
       const code = String(codeInput.value || '').trim();
       if (!/^\d{6}$/.test(code)) return say('E-postana gelen 6 haneli kodu gir.');
@@ -72,7 +110,7 @@
         say(result.message || 'E-posta doğrulandı. Hesabına yönlendiriliyorsun…');
         location.href = (window.EMSYLLIS_BASE || '') + '/panel.html';
       } catch (error) {
-        say(error && error.message ? error.message : 'Kayıt tamamlanamadı. Bilgileri kontrol et.');
+        say(explain(error));
       } finally {
         completeButton.disabled = false;
       }
@@ -82,7 +120,7 @@
 
   form.addEventListener('submit', async event => {
     event.preventDefault();
-    if (!configured) return say('Back4app EMSYLLIS bağlantısı henüz yapılandırılmadı.');
+    if (!configured) return say('Back4App EMSYLLIS bağlantısı yapılandırılmamış.');
     const data = new FormData(form);
     try {
       if (mode === 'login') {
@@ -94,7 +132,7 @@
         say('Adres kayıtlıysa parola sıfırlama bağlantısı gönderildi. Gelen kutunu kontrol et.');
       }
     } catch (error) {
-      say(error && error.message ? error.message : 'İşlem tamamlanamadı. Bilgileri kontrol edip tekrar dene.');
+      say(explain(error));
     }
   });
 })();
