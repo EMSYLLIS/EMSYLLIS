@@ -134,7 +134,12 @@ Parse.Cloud.define('emsyllisSendVerificationCode', async request => {
     const result = response.data && typeof response.data === 'object'
       ? response.data
       : JSON.parse(response.text || '{}');
-    if (!result || result.ok !== true) throw new Error('Email service rejected the request.');
+    if (!result || result.ok !== true) {
+      const serviceCode = result && typeof result.error === 'string' && /^[a-z_]+$/.test(result.error)
+        ? result.error
+        : 'invalid_response';
+      throw new Error('Email service rejected the request: ' + serviceCode);
+    }
   } catch (error) {
     challenge.set('consumed', true);
     await challenge.save(null, { useMasterKey: true });
@@ -142,7 +147,7 @@ Parse.Cloud.define('emsyllisSendVerificationCode', async request => {
     const raw = String(error && error.message || '');
     const safeCode = [
       'not_configured', 'unauthorized', 'unsupported_action',
-      'invalid_payload', 'rate_limited', 'daily_quota_exhausted',
+      'invalid_payload', 'invalid_response', 'rate_limited', 'daily_quota_exhausted',
       'internal_error'
     ].find(code => raw.includes(code));
     const statusMatch = raw.match(/(?:status|code)[^0-9]*(4\d\d|5\d\d)/i);
