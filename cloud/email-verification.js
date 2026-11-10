@@ -145,7 +145,7 @@ Parse.Cloud.define('emsyllisSendVerificationCode', async request => {
       'invalid_payload', 'rate_limited', 'daily_quota_exhausted',
       'internal_error'
     ].find(code => raw.includes(code));
-    const statusMatch = raw.match(/(?:status|code)[^0-9]*(4\\d\\d|5\\d\\d)/i);
+    const statusMatch = raw.match(/(?:status|code)[^0-9]*(4\d\d|5\d\d)/i);
     const reason = safeCode || (statusMatch ? 'http_' + statusMatch[1] : 'gateway_or_network_error');
     console.error('[EMSYLLIS] verification email send failed:', reason);
     throw new Error('Could not send the verification email. Diagnostic: ' + reason);
