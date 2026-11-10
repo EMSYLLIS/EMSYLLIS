@@ -10,7 +10,7 @@ permissions:
 
 concurrency:
   group: vercel-production-emsyllis-group
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   deploy:
