@@ -25,9 +25,10 @@ Parse.Cloud.define('emsyllisSendVerificationCode', async request => {
   const recentQuery = new Parse.Query('EMSYLLISEmailVerification');
   recentQuery.equalTo('email', email);
   recentQuery.greaterThan('createdAt', new Date(Date.now() - 3600000));
+  recentQuery.descending('createdAt');
   const recent = await recentQuery.find({ useMasterKey: true });
   if (recent.length >= 5) throw new Error('Too many code requests. Try again later.');
-  const last = recent[recent.length - 1];
+  const last = recent[0];
   if (last && Date.now() - last.get('sentAt').getTime() < 60000) throw new Error('Wait 60 seconds before requesting another code.');
   const existingQuery = new Parse.Query(Parse.User);
   existingQuery.equalTo('email', email);
