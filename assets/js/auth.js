@@ -11,7 +11,7 @@
   const explain = error => {
     const raw = String(error && error.message || '');
     if (/Invalid function|function.*not found|does not exist/i.test(raw)) {
-      return 'E-posta doğrulama servisi henüz Back4App Cloud Code üzerinde yayımlanmamış. Yönetici Cloud Code dağıtımını tamamlamalı.';
+      return 'Back4App bu kayıt fonksiyonunu bulamadı. cloud/main.js ile cloud/email-verification.js aynı Cloud Code dağıtımında olmalı; ardından Cloud Code yeniden yayımlanmalı.';
     }
     if (/Email verification server settings are incomplete/i.test(raw)) {
       return 'E-posta servisi sunucu ayarları eksik. Back4App ortam değişkenleri kontrol edilmeli.';
