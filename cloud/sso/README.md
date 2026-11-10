@@ -56,3 +56,19 @@ Never put Master Keys, private signing keys, client secrets, REST API keys, pepp
 ## Current user-facing truth
 
 The EMSYLLIS account center is an app launcher. The app menu reports the local app's Parse session state. Neither is cross-app SSO. Keep the SSO feature disabled until every gate above passes.
+
+
+## Implemented Cloud Code (2026-11-10)
+
+The repository now includes `cloud/identity-assertions.js`, loaded by `cloud/main.js`. The new functions are:
+
+- `emsyllisIdentityStatus`: reports the authenticated EMSYLLIS subject.
+- `emsyllisIssueLinkAssertion`: issues a 180-second RS256-signed, audience-bound assertion for `aethrion`, `sentrix`, or `tdevkuantum`. It requires an authenticated EMSYLLIS user and applies a per-user issuance limit.
+
+### Required server configuration
+
+Set `EMSYLLIS_ID_PRIVATE_KEY` in the EMSYLLIS Back4App Cloud Code environment to the PEM private key for a dedicated RSA signing pair. Keep the private key only in server-side environment settings. Do not commit it or send it in chat. The corresponding public key must be configured as `EMSYLLIS_ID_PUBLIC_KEY` in each destination app's Back4App Cloud Code environment.
+
+The central Parse application's public Application ID and JavaScript Key are still blank in `assets/js/config.js`; populate those two public client values from the EMSYLLIS Parse dashboard before using browser-side central login.
+
+**Scope boundary:** these functions securely establish a verifiable account-link assertion. They do not create a Parse session in another application and do not constitute seamless SSO. A supported destination Parse authentication adapter and end-to-end tests remain required. Existing accounts and sessions are unchanged.
