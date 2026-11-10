@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /panel.html
+Disallow: /auth/
+Sitemap: https://emsyllis.tech/sitemap.xml
