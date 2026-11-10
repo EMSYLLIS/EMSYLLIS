@@ -18,6 +18,19 @@ const settings = () => {
   }
   return { url, secret };
 };
+// Safe deployment diagnostic: reports readiness flags only; never returns secret values.
+Parse.Cloud.define('emsyllisEmailVerificationStatus', async () => {
+  const url = String(process.env.EMSYLLIS_APPS_SCRIPT_URL || '');
+  const secret = String(process.env.EMSYLLIS_APPS_SCRIPT_SECRET || '');
+  const pepper = String(process.env.EMSYLLIS_CODE_PEPPER || '');
+  const checks = {
+    appsScriptUrl: /^https:\\/\\/script\\.google\\.com\\/macros\\/s\\/.+\\/exec$/.test(url),
+    appsScriptSecret: secret.length >= 32,
+    codePepper: pepper.length >= 32
+  };
+  return { service: 'EMSYLLIS email verification', moduleLoaded: true, ready: Object.values(checks).every(Boolean), checks };
+});
+
 Parse.Cloud.define('emsyllisSendVerificationCode', async request => {
   const email = cleanEmail(request.params.email);
   if (!EMAIL_RE.test(email)) throw new Error('Enter a valid email address.');
