@@ -32,3 +32,6 @@ Parse.Cloud.define('emsyllisSubmitContact',async(request)=>{
 
 // Email verification and registration workflow.
 require('./email-verification.js');
+
+// EMSYLLIS ID account-linking bridge (server-side; no cross-app session minting).
+require('./identity-assertions.js');
