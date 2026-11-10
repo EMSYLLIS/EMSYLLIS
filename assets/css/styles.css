@@ -12,3 +12,54 @@
 #emsyllis-splash{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#fff;transition:opacity .55s ease,visibility .55s ease}#emsyllis-splash.is-leaving{opacity:0;visibility:hidden;pointer-events:none}.splash-inner{text-align:center;animation:splash-rise .8s ease both}.splash-logo{width:92px;height:92px;margin:0 auto 20px;display:block}.splash-name{font-size:17px;font-weight:800;letter-spacing:.24em}.splash-line{width:100px;height:2px;background:#e6ebf0;margin:22px auto 0;overflow:hidden}.splash-line:after{content:"";display:block;width:45%;height:100%;background:var(--blue2);animation:splash-progress 1.15s ease-in-out infinite}.splash-caption{font:9px 'DM Mono';letter-spacing:.19em;color:#8995a4;margin-top:12px}@keyframes splash-rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}@keyframes splash-progress{from{transform:translateX(-110%)}to{transform:translateX(240%)}}
 @media(max-width:820px){.nav-links{display:none;position:absolute;top:85px;left:0;right:0;padding:22px 28px;background:#fff;border-bottom:1px solid var(--line);flex-direction:column;align-items:stretch;gap:16px;box-shadow:0 15px 25px rgba(20,35,56,.08)}.nav-links.open{display:flex}.menu-toggle{display:block}.hero{grid-template-columns:1fr;padding-top:65px}.hero-art{height:340px;grid-row:1}.hero-copy{grid-row:2}.orbit-a{width:300px;height:170px}.orbit-b{width:250px;height:250px}.orbit-c{width:330px;height:115px}.core-mark{width:135px;height:135px}.section-head{align-items:start;flex-direction:column}.focus-grid{grid-template-columns:1fr}.project-grid{grid-template-columns:1fr}.footer-top{grid-template-columns:1fr 1fr}.footer-brand{grid-column:1/-1}.contact-band-inner{align-items:start;flex-direction:column;gap:24px}.project-detail{grid-template-columns:1fr}.project-detail-mark{max-width:220px}}@media(max-width:500px){.wrap,.nav-inner{width:calc(100% - 36px)}.hero h1{font-size:58px}.hero-art{height:285px}.footer-top{grid-template-columns:1fr}.footer-brand{grid-column:auto}.footer-bottom{flex-direction:column}.form-shell{margin:42px 18px 75px;padding:25px}.page-hero{padding:68px 0 42px}}
 [hidden]{display:none!important}
+/* EMSYLLIS brand refinement — 2026.11 */
+:root{--cyan:#376c9b;--gold:#b58b55;--navy:#12243a}
+body{background:#f7f8fa}
+.site-header{box-shadow:0 5px 24px rgba(17,35,57,.035)}
+.brand img{object-fit:contain}
+.nav-login{background:#f4f7fa;border-color:#d8e1ea}
+.hero{min-height:650px}
+.hero-art{border-radius:2px;background:radial-gradient(circle at 50% 48%,#fff 0,#f2f5f8 68%,#eaf0f5 100%)}
+.focus-card,.project-card,.info-card,.form-shell{border-radius:4px}
+.focus-card{border-top:2px solid #d9e3ec}
+.project-card{border-top:2px solid #d9e3ec}
+.form-shell{margin-top:76px;border-top:3px solid var(--blue);padding:42px;box-shadow:0 22px 65px rgba(20,40,65,.09)}
+.form-shell h1{letter-spacing:-.055em}
+.form-shell>p{font-size:13px;line-height:1.8}
+.field input,.field textarea{min-height:48px;border-radius:3px;background:#fcfdfe}
+.form-shell .btn{min-height:49px}
+.form-message{padding:9px 11px;background:#f2f5f8;border-left:2px solid var(--blue2);line-height:1.65}
+.notice{border-radius:2px}
+.password-control{position:relative;display:flex;align-items:center}
+.password-control input{padding-right:78px}
+.password-toggle{position:absolute;right:8px;top:50%;transform:translateY(-50%);border:0!important;background:transparent!important;color:var(--blue2)!important;width:auto!important;padding:7px 9px!important;font-size:10px!important;font-weight:800;cursor:pointer}
+.password-toggle:hover{text-decoration:underline}
+.workspace{padding-bottom:95px}
+.workspace-hero{min-height:370px;padding:65px 0 55px;display:flex;align-items:center;justify-content:space-between;gap:30px;border-bottom:1px solid var(--line)}
+.workspace-hero h1{font-size:clamp(42px,5.5vw,70px);margin:18px 0}
+.workspace-hero h1 span{color:var(--blue2)}
+.workspace-hero p{max-width:580px;color:var(--muted);font-size:14px}
+.workspace-seal{width:190px;min-width:190px;height:190px;border:1px solid #dfe6ed;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:linear-gradient(145deg,#fff,#f0f4f8)}
+.workspace-seal img{width:95px;height:95px}
+.workspace-seal span,.workspace-kicker,.workspace-project-no{font:9px 'DM Mono';letter-spacing:.15em;color:#7d8a9a}
+.workspace-overview{margin:28px 0 70px;padding:26px 30px;background:#fff;border:1px solid #e2e8ef;border-left:3px solid var(--blue);display:flex;align-items:center;justify-content:space-between;gap:20px}
+.workspace-overview h2{font-size:23px;margin:7px 0}
+.workspace-overview p{margin:0;font-size:12px}
+.workspace-section{padding:0 0 65px}
+.workspace-section-head{display:flex;justify-content:space-between;align-items:end;gap:25px;margin-bottom:24px}
+.workspace-section-head h2{font-size:34px;letter-spacing:-.05em;margin:8px 0 0}
+.workspace-section-head>p{font-size:12px;color:var(--muted);max-width:300px}
+.workspace-projects{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.workspace-project{background:#fff;border:1px solid #e1e7ee;padding:24px;min-height:205px;display:flex;flex-direction:column;transition:.2s}
+.workspace-project:hover{transform:translateY(-3px);border-color:#a8bacb;box-shadow:var(--shadow)}
+.workspace-project strong{font-size:24px;letter-spacing:.05em;margin:25px 0 4px}
+.workspace-project>span:not(.workspace-project-no){font-size:11px;color:var(--muted)}
+.workspace-project b{font:10px 'DM Mono';color:var(--blue2);margin-top:auto;padding-top:20px}
+.workspace-bottom{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.workspace-info{padding:28px;background:#fff;border:1px solid #e1e7ee}
+.workspace-info h3{font-size:22px;margin:12px 0 8px}
+.workspace-info p{font-size:12px;color:var(--muted);max-width:420px}
+.workspace-info-dark{background:#142b43;color:#fff;border-color:#142b43}
+.workspace-info-dark .eyebrow,.workspace-info-dark .text-link{color:#c7d8e8}
+.workspace-info-dark p{color:#c1ccda}
+@media(max-width:760px){.workspace-hero{align-items:flex-start;flex-direction:column}.workspace-seal{width:130px;height:130px;min-width:130px}.workspace-seal img{width:65px;height:65px}.workspace-overview,.workspace-section-head{align-items:flex-start;flex-direction:column}.workspace-projects,.workspace-bottom{grid-template-columns:1fr}.form-shell{padding:28px 22px;margin:42px auto 70px}}
