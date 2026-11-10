@@ -5,7 +5,7 @@
 ## Verified repository facts
 
 - `assets/js/config.js` currently has empty `APP_ID` and `JAVASCRIPT_KEY`.
-- EMSYLLIS Cloud Code currently has project catalog, contact, and email-verification functions.
+- EMSYLLIS Cloud Code has project catalog, contact, and email-verification functions; `cloud/identity-assertions.js` now adds authenticated, audience-bound account-link assertions.
 - AETHRION and SENTRIX use different Parse application IDs and independent user/session stores.
 - The Back4App connector available in this workspace manages Back4App web apps, not Parse application creation, Parse Server configuration, Cloud Code deployment, or Master Key settings.
 - The connector account currently lists zero Back4App web apps. This is not evidence that no Parse apps exist; it only means the available connector cannot inspect them.
