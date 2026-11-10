@@ -13,8 +13,8 @@
     if (/Invalid function|function.*not found|does not exist/i.test(raw)) {
       return 'Back4App bu kayıt fonksiyonunu bulamadı. cloud/main.js ile cloud/email-verification.js aynı Cloud Code dağıtımında olmalı; ardından Cloud Code yeniden yayımlanmalı.';
     }
-    if (/Email verification server settings are incomplete/i.test(raw)) {
-      return 'E-posta servisi sunucu ayarları eksik. Back4App ortam değişkenleri kontrol edilmeli.';
+    if (/Email verification Back4App Config is incomplete/i.test(raw)) {
+      return 'E-posta doğrulama ayarları Back4App Config bölümünde eksik veya erişim izni yanlış. Üç EMSYLLIS ayarını ve "Requires master key?" seçeneklerini kontrol edin.';
     }
     return raw || 'İşlem tamamlanamadı. Bilgileri kontrol edip tekrar dene.';
   };
@@ -71,7 +71,7 @@
       sendButton.disabled = true;
       say('Doğrulama kodu gönderiliyor…');
       try {
-        const result = await Parse.Cloud.run('emsyllisSendVerificationCode', { email, appsScriptUrl: cfg.APPS_SCRIPT_URL || '' });
+        const result = await Parse.Cloud.run('emsyllisSendVerificationCode', { email });
         pendingEmail = email;
         pendingPassword = password;
         codeField.hidden = false;
