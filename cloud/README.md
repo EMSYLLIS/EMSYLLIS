@@ -7,16 +7,21 @@ This folder contains Parse Cloud Code for the dedicated EMSYLLIS Back4app Parse 
 - `email-verification.js` — six-digit email verification, signup, login guard, abuse limits and a safe deployment-status function.
 - `identity-assertions.js` — EMSYLLIS ID account-link assertion functions (also loaded by `main.js`).
 
-## Required Back4app server configuration
-Add these as **server-side Cloud Code environment variables / secrets** in the EMSYLLIS Back4app application. Do not add them to `assets/js/config.js`, GitHub, or browser code.
+## Private email-verification settings — Back4App Config
 
-| Variable | Value |
+The email-verification module reads all three values from **Back4App → Parse Config** using `Parse.Config.get({ useMasterKey: true })`. No email-verification setting is sent by the browser, and none is read from `process.env`.
+
+Create these three parameters in the EMSYLLIS Back4App application's Config section:
+
+| Parameter name (exact) | Value |
 |---|---|
 | `EMSYLLIS_APPS_SCRIPT_URL` | Deployed Google Apps Script Web App URL ending in `/exec` |
-| `EMSYLLIS_APPS_SCRIPT_SECRET` | A unique random secret of at least 32 characters; same value as Apps Script Script Property |
+| `EMSYLLIS_APPS_SCRIPT_SECRET` | A unique random secret of at least 32 characters; same value as the Apps Script Script Property |
 | `EMSYLLIS_CODE_PEPPER` | A different unique random secret of at least 32 characters |
 
-The public browser config contains only the Parse Application ID, JavaScript key and Parse server URL. Never expose a Master Key or REST API Key.
+**For each of the three parameters, set “Requires master key?” to “Yes”.** This is essential: Parse Config parameters are otherwise publicly readable by clients. Cloud Code retrieves them with the master key, while browser clients cannot retrieve these private values. Never put these secrets in `assets/js/config.js`, HTML, GitHub, or client requests.
+
+The code does not create or guess the values. Add the real values directly in the Back4App Config dashboard. Do not reuse the Apps Script secret as the code pepper.
 
 ## Google Apps Script setup
 1. Open the Google Apps Script project and paste `apps-script/Code.gs` into its editor.
@@ -29,11 +34,11 @@ The public browser config contains only the Parse Application ID, JavaScript key
 6. If the code changes later, update the deployment to a new version.
 
 ## Registration flow
-1. Browser calls `emsyllisSendVerificationCode` through Parse Cloud Code.
-2. Cloud Code creates a one-time challenge and calls the Apps Script endpoint server-to-server.
+1. Browser calls `emsyllisSendVerificationCode` through Parse Cloud Code with only the email address.
+2. Cloud Code reads the private Back4App Config values, creates a one-time challenge and calls the Apps Script endpoint server-to-server.
 3. Apps Script sends the six-digit code through `MailApp`.
 4. Browser submits email, code and password to `emsyllisCompleteRegistration`.
-5. Cloud Code validates expiry and attempt count, creates the Parse user and marks its email verified.
+5. Cloud Code reads the same private pepper, validates expiry and attempt count, creates the Parse user and marks its email verified.
 6. A `beforeLogin` guard rejects users whose email is not verified.
 
 Codes expire after 10 minutes. Cloud Code limits code requests and incorrect attempts. The browser keeps the password in memory only during the two-step registration; it is not saved to local storage.
@@ -41,9 +46,10 @@ Codes expire after 10 minutes. Cloud Code limits code requests and incorrect att
 ## Back4app Parse settings
 - Deploy the **entire `cloud/` directory as one Cloud Code deployment**, preserving filenames and relative paths. At minimum it must contain `cloud/main.js`, `cloud/email-verification.js`, and `cloud/identity-assertions.js`. The main file loads the two helper modules with `require('./email-verification.js')` and `require('./identity-assertions.js')`.
 - Uploading `main.js` alone is not sufficient. If either required helper module is absent, Cloud Code can fail to load or the registration functions will not be registered.
-- After deployment, call `emsyllisEmailVerificationStatus` from Parse Cloud Code. It returns only boolean readiness checks (never secret values). Expected result: `moduleLoaded: true`, `ready: true`, and all three entries in `checks` set to `true`.
+- After deploying Cloud Code and adding all three private Config parameters, call `emsyllisEmailVerificationStatus`. It returns only readiness booleans, never values. Expected result: `moduleLoaded: true`, `ready: true`, and all three entries in `checks` set to `true`.
+
+If any check is false, verify the exact parameter spelling, value, and that **Requires master key? = Yes** is enabled for all three.
 - Keep the Parse Application ID and JavaScript key in `assets/js/config.js`.
-- Confirm Cloud Code environment variables are available at runtime through `process.env`.
 - Do not enable any alternative public signup route that bypasses the Cloud Code verification flow.
 - The custom verification flow sets `emailVerified` after validating the code. Avoid enabling a second built-in Parse email verification message unless you intentionally want two separate checks.
 - Test with a mailbox you control before opening registration to the public.
