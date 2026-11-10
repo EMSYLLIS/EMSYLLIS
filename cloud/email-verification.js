@@ -9,8 +9,9 @@ const safeMatch = (a, b) => {
   const y = Buffer.from(String(b || ''));
   return x.length === y.length && crypto.timingSafeEqual(x, y);
 };
-const settings = () => {
-  const url = String(process.env.EMSYLLIS_APPS_SCRIPT_URL || '');
+const settings = request => {
+  // The Apps Script endpoint is public configuration; secrets remain server-side.
+  const url = String(request && request.params && request.params.appsScriptUrl || '');
   const secret = String(process.env.EMSYLLIS_APPS_SCRIPT_SECRET || '');
   const pepper = String(process.env.EMSYLLIS_CODE_PEPPER || '');
   if (!/^https:\/\/script\.google\.com\/macros\/s\/.+\/exec$/.test(url) || secret.length < 32 || pepper.length < 32) {
@@ -19,8 +20,8 @@ const settings = () => {
   return { url, secret };
 };
 // Safe deployment diagnostic: reports readiness flags only; never returns secret values.
-Parse.Cloud.define('emsyllisEmailVerificationStatus', async () => {
-  const url = String(process.env.EMSYLLIS_APPS_SCRIPT_URL || '');
+Parse.Cloud.define('emsyllisEmailVerificationStatus', async request => {
+  const url = String(request && request.params && request.params.appsScriptUrl || '');
   const secret = String(process.env.EMSYLLIS_APPS_SCRIPT_SECRET || '');
   const pepper = String(process.env.EMSYLLIS_CODE_PEPPER || '');
   const checks = {
@@ -34,7 +35,7 @@ Parse.Cloud.define('emsyllisEmailVerificationStatus', async () => {
 Parse.Cloud.define('emsyllisSendVerificationCode', async request => {
   const email = cleanEmail(request.params.email);
   if (!EMAIL_RE.test(email)) throw new Error('Enter a valid email address.');
-  const config = settings();
+  const config = settings(request);
   const recentQuery = new Parse.Query('EMSYLLISEmailVerification');
   recentQuery.equalTo('email', email);
   recentQuery.greaterThan('createdAt', new Date(Date.now() - 3600000));
