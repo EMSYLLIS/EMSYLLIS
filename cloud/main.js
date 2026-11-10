@@ -29,3 +29,6 @@ Parse.Cloud.define('emsyllisSubmitContact',async(request)=>{
  await item.save(null,{useMasterKey:true});
  return {accepted:true,message:'Your message has been received.'};
 });
+
+// Email verification and registration workflow.
+require('./email-verification.js');
