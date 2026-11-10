@@ -4,7 +4,8 @@ This folder contains Parse Cloud Code for the dedicated EMSYLLIS Back4app Parse 
 
 ## Cloud Code modules
 - `main.js` — public project catalog, contact form and module loader.
-- `email-verification.js` — six-digit email verification, signup, login guard and abuse limits.
+- `email-verification.js` — six-digit email verification, signup, login guard, abuse limits and a safe deployment-status function.
+- `identity-assertions.js` — EMSYLLIS ID account-link assertion functions (also loaded by `main.js`).
 
 ## Required Back4app server configuration
 Add these as **server-side Cloud Code environment variables / secrets** in the EMSYLLIS Back4app application. Do not add them to `assets/js/config.js`, GitHub, or browser code.
@@ -38,7 +39,9 @@ The public browser config contains only the Parse Application ID, JavaScript key
 Codes expire after 10 minutes. Cloud Code limits code requests and incorrect attempts. The browser keeps the password in memory only during the two-step registration; it is not saved to local storage.
 
 ## Back4app Parse settings
-- Deploy both `cloud/main.js` and `cloud/email-verification.js`; the main file loads the module with `require('./email-verification.js')`.
+- Deploy the **entire `cloud/` directory as one Cloud Code deployment**, preserving filenames and relative paths. At minimum it must contain `cloud/main.js`, `cloud/email-verification.js`, and `cloud/identity-assertions.js`. The main file loads the two helper modules with `require('./email-verification.js')` and `require('./identity-assertions.js')`.
+- Uploading `main.js` alone is not sufficient. If either required helper module is absent, Cloud Code can fail to load or the registration functions will not be registered.
+- After deployment, call `emsyllisEmailVerificationStatus` from Parse Cloud Code. It returns only boolean readiness checks (never secret values). Expected result: `moduleLoaded: true`, `ready: true`, and all three entries in `checks` set to `true`.
 - Keep the Parse Application ID and JavaScript key in `assets/js/config.js`.
 - Confirm Cloud Code environment variables are available at runtime through `process.env`.
 - Do not enable any alternative public signup route that bypasses the Cloud Code verification flow.
