@@ -55,6 +55,10 @@
       if (!pendingEmail || email !== pendingEmail || !pendingPassword) {
         return say('Önce bu e-posta adresine doğrulama kodu gönder.');
       }
+      const currentPassword = String(passwordInput.value || '');
+      if (currentPassword !== pendingPassword || currentPassword !== String(confirmInput.value || '')) {
+        return say('Şifre alanları değişti. Yeni kod isteyerek kayıt adımını yeniden başlat.');
+      }
       const code = String(codeInput.value || '').trim();
       if (!/^\d{6}$/.test(code)) return say('E-postana gelen 6 haneli kodu gir.');
       completeButton.disabled = true;
