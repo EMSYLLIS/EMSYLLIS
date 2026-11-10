@@ -63,3 +63,5 @@ body{background:#f7f8fa}
 .workspace-info-dark .eyebrow,.workspace-info-dark .text-link{color:#c7d8e8}
 .workspace-info-dark p{color:#c1ccda}
 @media(max-width:760px){.workspace-hero{align-items:flex-start;flex-direction:column}.workspace-seal{width:130px;height:130px;min-width:130px}.workspace-seal img{width:65px;height:65px}.workspace-overview,.workspace-section-head{align-items:flex-start;flex-direction:column}.workspace-projects,.workspace-bottom{grid-template-columns:1fr}.form-shell{padding:28px 22px;margin:42px auto 70px}}
+
+.footer-bottom{align-items:center;flex-wrap:wrap}.footer-github-link{display:inline-flex;align-items:center;gap:8px;color:var(--blue2);font:800 10px Manrope,Arial,sans-serif;letter-spacing:.02em;text-decoration:none}.footer-github-link svg{width:17px;height:17px;fill:currentColor}.footer-github-link:hover{color:var(--blue);text-decoration:underline;text-underline-offset:4px}@media(max-width:500px){.footer-bottom{align-items:flex-start}}
