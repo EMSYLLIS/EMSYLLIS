@@ -1,19 +1,96 @@
 (() => {
-const cfg=window.EMSYLLIS_CONFIG||{};
-const configured=Boolean(cfg.APP_ID&&cfg.JAVASCRIPT_KEY&&window.Parse);
-if(configured){Parse.initialize(cfg.APP_ID,cfg.JAVASCRIPT_KEY);Parse.serverURL=cfg.SERVER_URL||'https://parseapi.back4app.com';}
-const message=document.querySelector('.form-message');
-const say=(text)=>{if(message)message.textContent=text;};
-const form=document.querySelector('[data-auth-form]');
-if(!form)return;
-form.addEventListener('submit',async e=>{
- e.preventDefault();
- if(!configured){say('Hesap sistemi henüz Back4app EMSYLLIS uygulamasına bağlanmadı. Yapılandırma tamamlandığında etkinleşecek.');return;}
- const data=new FormData(form);const mode=form.dataset.authForm;
- try{
-  if(mode==='login'){await Parse.User.logIn(String(data.get('username')||''),String(data.get('password')||''));location.href='/panel.html';}
-  else if(mode==='register'){const user=new Parse.User();user.set('username',String(data.get('email')||''));user.set('email',String(data.get('email')||''));user.set('password',String(data.get('password')||''));await user.signUp();say('Hesap oluşturuldu. E-posta doğrulama ayarlarına göre gelen kutunu kontrol et.');location.href='/panel.html';}
-  else if(mode==='reset'){await Parse.User.requestPasswordReset(String(data.get('email')||''));say('E-posta adresi kayıtlıysa parola sıfırlama bağlantısı gönderildi.');}
- }catch(err){say(err&&err.message?err.message:'İşlem tamamlanamadı. Bilgileri kontrol edip tekrar dene.');}
-});
+  const cfg = window.EMSYLLIS_CONFIG || {};
+  const configured = Boolean(cfg.APP_ID && cfg.JAVASCRIPT_KEY && window.Parse);
+  if (configured) {
+    Parse.initialize(cfg.APP_ID, cfg.JAVASCRIPT_KEY);
+    Parse.serverURL = cfg.SERVER_URL || 'https://parseapi.back4app.com';
+  }
+  const form = document.querySelector('[data-auth-form]');
+  if (!form) return;
+  const message = form.querySelector('.form-message');
+  const say = text => { if (message) message.textContent = text; };
+  const mode = form.dataset.authForm;
+
+  if (mode === 'register') {
+    const emailInput = form.querySelector('[name="email"]');
+    const passwordInput = form.querySelector('[name="password"]');
+    const confirmInput = form.querySelector('[name="confirm"]');
+    const codeInput = form.querySelector('[name="code"]');
+    const sendButton = form.querySelector('[data-send-code]');
+    const completeButton = form.querySelector('[data-complete-registration]');
+    const codeField = form.querySelector('[data-code-field]');
+    let pendingEmail = '';
+    let pendingPassword = '';
+
+    sendButton.addEventListener('click', async () => {
+      if (!configured) return say('Back4app EMSYLLIS bağlantısı henüz yapılandırılmadı.');
+      const email = String(emailInput.value || '').trim().toLowerCase();
+      const password = String(passwordInput.value || '');
+      const confirmation = String(confirmInput.value || '');
+      if (!emailInput.checkValidity()) return emailInput.reportValidity();
+      if (password.length < 10) return say('Şifren en az 10 karakter olmalı.');
+      if (password !== confirmation) return say('Şifreler eşleşmiyor.');
+      sendButton.disabled = true;
+      say('Doğrulama kodu gönderiliyor…');
+      try {
+        const result = await Parse.Cloud.run('emsyllisSendVerificationCode', { email });
+        pendingEmail = email;
+        pendingPassword = password;
+        codeField.hidden = false;
+        completeButton.hidden = false;
+        sendButton.textContent = 'Kodu yeniden gönder';
+        say(result.message || 'Kod gönderildi. Gelen kutunu ve spam klasörünü kontrol et.');
+        codeInput.focus();
+      } catch (error) {
+        say(error && error.message ? error.message : 'Kod gönderilemedi. Biraz sonra tekrar dene.');
+      } finally {
+        sendButton.disabled = false;
+      }
+    });
+
+    form.addEventListener('submit', async event => {
+      event.preventDefault();
+      if (!configured) return say('Back4app EMSYLLIS bağlantısı henüz yapılandırılmadı.');
+      const email = String(emailInput.value || '').trim().toLowerCase();
+      if (!pendingEmail || email !== pendingEmail || !pendingPassword) {
+        return say('Önce bu e-posta adresine doğrulama kodu gönder.');
+      }
+      const code = String(codeInput.value || '').trim();
+      if (!/^\d{6}$/.test(code)) return say('E-postana gelen 6 haneli kodu gir.');
+      completeButton.disabled = true;
+      say('Kod doğrulanıyor ve hesabın oluşturuluyor…');
+      try {
+        const result = await Parse.Cloud.run('emsyllisCompleteRegistration', {
+          email: pendingEmail, code, password: pendingPassword
+        });
+        await Parse.User.logIn(pendingEmail, pendingPassword);
+        pendingPassword = '';
+        say(result.message || 'E-posta doğrulandı. Hesabına yönlendiriliyorsun…');
+        location.href = '/panel.html';
+      } catch (error) {
+        say(error && error.message ? error.message : 'Kayıt tamamlanamadı. Bilgileri kontrol et.');
+      } finally {
+        completeButton.disabled = false;
+      }
+    });
+    return;
+  }
+
+  form.addEventListener('submit', async event => {
+    event.preventDefault();
+    if (!configured) return say('Back4app EMSYLLIS bağlantısı henüz yapılandırılmadı.');
+    const data = new FormData(form);
+    try {
+      if (mode === 'login') {
+        const email = String(data.get('username') || '').trim().toLowerCase();
+        await Parse.User.logIn(email, String(data.get('password') || ''));
+        location.href = '/panel.html';
+      } else if (mode === 'reset') {
+        await Parse.User.requestPasswordReset(String(data.get('email') || '').trim().toLowerCase());
+        say('Adres kayıtlıysa parola sıfırlama bağlantısı gönderildi. Gelen kutunu kontrol et.');
+      }
+    } catch (error) {
+      say(error && error.message ? error.message : 'İşlem tamamlanamadı. Bilgileri kontrol edip tekrar dene.');
+    }
+  });
 })();
