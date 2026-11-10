@@ -4,7 +4,7 @@
 
 ## Verified repository facts
 
-- `assets/js/config.js` currently has empty `APP_ID` and `JAVASCRIPT_KEY`.
+- `assets/js/config.js` currently contains the EMSYLLIS public Parse `APP_ID` and `JAVASCRIPT_KEY`; verify these against the intended EMSYLLIS Parse dashboard before production use.
 - EMSYLLIS Cloud Code has project catalog, contact, and email-verification functions; `cloud/identity-assertions.js` now adds authenticated, audience-bound account-link assertions.
 - AETHRION and SENTRIX use different Parse application IDs and independent user/session stores.
 - The Back4App connector available in this workspace manages Back4App web apps, not Parse application creation, Parse Server configuration, Cloud Code deployment, or Master Key settings.
@@ -69,6 +69,6 @@ The repository now includes `cloud/identity-assertions.js`, loaded by `cloud/mai
 
 Set `EMSYLLIS_ID_PRIVATE_KEY` in the EMSYLLIS Back4App Cloud Code environment to the PEM private key for a dedicated RSA signing pair. Keep the private key only in server-side environment settings. Do not commit it or send it in chat. The corresponding public key must be configured as `EMSYLLIS_ID_PUBLIC_KEY` in each destination app's Back4App Cloud Code environment.
 
-The central Parse application's public Application ID and JavaScript Key are still blank in `assets/js/config.js`; populate those two public client values from the EMSYLLIS Parse dashboard before using browser-side central login.
+The central Parse application's public Application ID and JavaScript Key are present in `assets/js/config.js`; verify them against the canonical EMSYLLIS Parse dashboard before using browser-side central login.
 
 **Scope boundary:** these functions securely establish a verifiable account-link assertion. They do not create a Parse session in another application and do not constitute seamless SSO. A supported destination Parse authentication adapter and end-to-end tests remain required. Existing accounts and sessions are unchanged.
