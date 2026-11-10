@@ -24,7 +24,7 @@ Parse.Cloud.define('emsyllisEmailVerificationStatus', async () => {
   const secret = String(process.env.EMSYLLIS_APPS_SCRIPT_SECRET || '');
   const pepper = String(process.env.EMSYLLIS_CODE_PEPPER || '');
   const checks = {
-    appsScriptUrl: /^https:\\/\\/script\\.google\\.com\\/macros\\/s\\/.+\\/exec$/.test(url),
+    appsScriptUrl: /^https:\/\/script\.google\.com\/macros\/s\/.+\/exec$/.test(url),
     appsScriptSecret: secret.length >= 32,
     codePepper: pepper.length >= 32
   };
