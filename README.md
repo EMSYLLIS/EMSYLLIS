@@ -34,10 +34,10 @@ The projects in the EMSYLLIS portfolio are currently designed, built and maintai
 - `auth/` — login, registration and password reset screens
 - `legal/` — terms, privacy, cookies, KVKK and disclaimer draft pages
 - `assets/` — brand assets, styles and browser scripts
-- `cloud/main.js` — Back4app Parse Cloud Code
+- `cloud/` — Back4app Parse Cloud Code modules (`main.js`, `email-verification.js`, `identity-assertions.js`)
 
 ## Back4app
-The browser configuration in `assets/js/config.js` is intentionally blank until a **dedicated EMSYLLIS Parse application** is connected. Do not paste AETHRION application keys here. Never expose a Master Key, REST API Key or server secret in client-side code.
+`assets/js/config.js` contains the public Parse Application ID and JavaScript key for the EMSYLLIS application. Do not paste AETHRION application keys here. Never expose a Master Key, REST API Key or server secret in client-side code.
 
 See [cloud/README.md](cloud/README.md) before deployment. Registration now uses a six-digit email code sent through [Google Apps Script](apps-script/Code.gs); the Apps Script URL and shared secrets must be configured only in Back4app Server Settings → Environment Variables. Public signup is blocked outside the verified Cloud Code flow.
 
