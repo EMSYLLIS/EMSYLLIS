@@ -71,7 +71,7 @@
       sendButton.disabled = true;
       say('Doğrulama kodu gönderiliyor…');
       try {
-        const result = await Parse.Cloud.run('emsyllisSendVerificationCode', { email });
+        const result = await Parse.Cloud.run('emsyllisSendVerificationCode', { email, appsScriptUrl: cfg.APPS_SCRIPT_URL || '' });
         pendingEmail = email;
         pendingPassword = password;
         codeField.hidden = false;
