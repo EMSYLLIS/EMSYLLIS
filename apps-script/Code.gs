@@ -37,17 +37,13 @@ function doPost(e) {
     // Secondary throttle in addition to the Back4app Cloud Code rate limit.
     var digest = Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, email);
     var key = 'LAST_MAIL_' + Utilities.base64EncodeWebSafe(digest).replace(/=+$/g, '');
+    var cache = CacheService.getScriptCache();
     var lock = LockService.getScriptLock();
     lock.waitLock(10000);
     try {
-      var previous = Number(props.getProperty(key) || 0);
-      if (Date.now() - previous < 55000) {
-        return json_({ ok: false, error: 'rate_limited' });
-      }
-      if (MailApp.getRemainingDailyQuota() < 1) {
-        return json_({ ok: false, error: 'daily_quota_exhausted' });
-      }
-      props.setProperty(key, String(Date.now()));
+      if (cache.get(key)) return json_({ ok: false, error: 'rate_limited' });
+      if (MailApp.getRemainingDailyQuota() < 1) return json_({ ok: false, error: 'daily_quota_exhausted' });
+      cache.put(key, '1', 55);
     } finally {
       lock.releaseLock();
     }
@@ -80,15 +76,3 @@ function doPost(e) {
   }
 }
 
-/**
- * Run once manually in the Apps Script editor to create a long random secret.
- * Copy the logged value into Script Properties and Back4app Cloud Code settings.
- * Then remove the log statement or delete this helper before sharing the project.
- */
-function generateWebhookSecretOnce() {
-  var bytes = [];
-  for (var i = 0; i < 48; i++) bytes.push(Math.floor(Math.random() * 256));
-  var secret = Utilities.base64EncodeWebSafe(bytes).replace(/=+$/g, '');
-  console.log('Set this value as EMSYLLIS_APPS_SCRIPT_SECRET in BOTH Apps Script Script Properties and Back4app Cloud Code settings:');
-  console.log(secret);
-}
