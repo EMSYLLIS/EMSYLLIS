@@ -2,7 +2,13 @@
 **SCIENCE · TECHNOLOGY · INTELLIGENCE**  
 **Beyond What Is Known.**
 
-EMSYLLIS Group is used as an umbrella brand for an independent technology and innovation project portfolio. It is not a statement that a legal entity has been incorporated or registered.
+EMSYLLIS is an independent technology and innovation initiative bringing together a portfolio of projects across artificial intelligence, software engineering, digital trust and emerging technologies. The name **EMSYLLIS Group** is used as an umbrella brand; it does not imply that a legal entity has been incorporated or registered.
+
+## Founder & development
+
+EMSYLLIS was founded and is independently developed by a **10th-grade student and independent software developer** with a strong interest in software engineering, artificial intelligence and emerging technologies.
+
+The projects in the EMSYLLIS portfolio are currently designed, built and maintained independently by the founder. The initiative reflects a long-term commitment to learning through research, experimentation and practical product development.
 
 ## Website
 - Production domain: https://emsyllis.tech/
@@ -14,6 +20,13 @@ EMSYLLIS Group is used as an umbrella brand for an independent technology and in
 - [SENTRIX](https://turkmenmuhammedeymen-dev.github.io/SENTRIX/#workspace) — domain verification and digital trust project.
 - TdevKuantum — project profile hosted on this website.
 - AETHRION-LLM — **in development**, not presented as a released model.
+
+## Development principles
+
+- **Independent development:** projects are developed and maintained independently by the founder.
+- **Transparency:** research goals and planned features are distinguished from capabilities that are already working.
+- **Responsible engineering:** security, privacy, source verification and careful testing are part of the development process.
+- **Continuous learning:** the portfolio is an evolving body of work, built through study, experimentation and iteration.
 
 ## Structure
 - `index.html` — homepage
