@@ -35,23 +35,47 @@ const readPrivateSettings = async () => {
   return { url, secret, pepper, checks };
 };
 
-// Safe diagnostic: returns readiness flags only, never configuration values.
+// Safe diagnostic: checks private Config and the public Apps Script health endpoint.
+// It never returns URLs, secrets, email addresses, or verification codes.
 Parse.Cloud.define('emsyllisEmailVerificationStatus', async () => {
+  let checks = {
+    appsScriptUrl: false,
+    appsScriptSecret: false,
+    codePepper: false,
+    gatewayReachable: false
+  };
   try {
     const settings = await readPrivateSettings();
+    checks = { ...settings.checks, gatewayReachable: false };
+    try {
+      const response = await Parse.Cloud.httpRequest({
+        method: 'GET',
+        url: settings.url,
+        followRedirects: true
+      });
+      let payload = response.data;
+      if (!payload || typeof payload !== 'object') {
+        payload = JSON.parse(response.text || '{}');
+      }
+      checks.gatewayReachable = Boolean(
+        response.status >= 200 && response.status < 300 &&
+        payload && payload.service === 'EMSYLLIS mail gateway' &&
+        payload.status === 'ready'
+      );
+    } catch (gatewayError) {
+      console.error('[EMSYLLIS] mail gateway health check failed:', gatewayError && gatewayError.message || 'unknown');
+    }
     return {
       service: 'EMSYLLIS email verification',
       moduleLoaded: true,
       configSource: 'Back4App Parse Config (master-key-only)',
-      ready: true,
-      checks: settings.checks
+      ready: Object.values(checks).every(Boolean),
+      checks
     };
   } catch (error) {
-    const checks = error && error.checks || {
-      appsScriptUrl: false,
-      appsScriptSecret: false,
-      codePepper: false
-    };
+    checks = error && error.checks
+      ? { ...error.checks, gatewayReachable: false }
+      : checks;
     return {
       service: 'EMSYLLIS email verification',
       moduleLoaded: true,
@@ -114,7 +138,17 @@ Parse.Cloud.define('emsyllisSendVerificationCode', async request => {
   } catch (error) {
     challenge.set('consumed', true);
     await challenge.save(null, { useMasterKey: true });
-    throw new Error('Could not send the verification email. Try again later.');
+    // Return only a safe diagnostic code; never expose the URL, secret, email, or code.
+    const raw = String(error && error.message || '');
+    const safeCode = [
+      'not_configured', 'unauthorized', 'unsupported_action',
+      'invalid_payload', 'rate_limited', 'daily_quota_exhausted',
+      'internal_error'
+    ].find(code => raw.includes(code));
+    const statusMatch = raw.match(/(?:status|code)[^0-9]*(4\\d\\d|5\\d\\d)/i);
+    const reason = safeCode || (statusMatch ? 'http_' + statusMatch[1] : 'gateway_or_network_error');
+    console.error('[EMSYLLIS] verification email send failed:', reason);
+    throw new Error('Could not send the verification email. Diagnostic: ' + reason);
   }
 
   return {
