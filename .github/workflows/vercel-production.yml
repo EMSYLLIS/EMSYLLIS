@@ -14,8 +14,6 @@ concurrency:
 
 jobs:
   deploy:
-    # The first commit is safe before the Vercel token is configured.
-    if: ${{ secrets.VERCEL_TOKEN != '' }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
@@ -31,7 +29,20 @@ jobs:
         with:
           node-version: 20
 
+      - name: Check whether the Vercel token is configured
+        id: token
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          if [ -z "$VERCEL_TOKEN" ]; then
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Add the VERCEL_TOKEN repository secret to enable deployments."
+          else
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Deploy production to Vercel
+        if: steps.token.outputs.configured == 'true'
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         run: npx --yes vercel@latest deploy --prod --yes --token="$VERCEL_TOKEN" --scope="$VERCEL_SCOPE"
