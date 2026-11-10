@@ -53,3 +53,7 @@ Codes expire after 10 minutes. Cloud Code limits code requests and incorrect att
 - Configure restrictive Class-Level Permissions and retention/deletion procedures.
 - Apps Script sends mail from the Google account that owns the deployment and is subject to Google MailApp quotas.
 - The legal pages in the website are starter drafts, not legal advice or ready-to-sign contracts.
+
+## Shared identity (EMSYLLIS ID)
+
+The central SSO rollout is documented in [`cloud/sso/README.md`](./sso/README.md). Do not deploy a browser-only token bridge or claim SSO is enabled: each destination Parse Server must support a verified OIDC/custom-auth adapter that issues its own local Parse session. The EMSYLLIS public Parse client config is intentionally blank until the canonical Parse application is confirmed. Keep all private signing keys and client credentials server-side.
