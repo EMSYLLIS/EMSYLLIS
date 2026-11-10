@@ -1,0 +1,37 @@
+name: Deploy emsyllis-group to Vercel
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: vercel-production-emsyllis-group
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    # The first commit is safe before the Vercel token is configured.
+    if: ${{ secrets.VERCEL_TOKEN != '' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      VERCEL_ORG_ID: team_8oVwS5n6XeSpupG2iAAVncUP
+      VERCEL_PROJECT_ID: prj_lbCsizPYdYCcwOUpJdffnshPWyAC
+      VERCEL_SCOPE: turkmenmuhammedeymen-3774s-projects
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Deploy production to Vercel
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: npx --yes vercel@latest deploy --prod --yes --token="$VERCEL_TOKEN" --scope="$VERCEL_SCOPE"
