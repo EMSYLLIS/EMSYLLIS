@@ -70,7 +70,7 @@
         await Parse.User.logIn(pendingEmail, pendingPassword);
         pendingPassword = '';
         say(result.message || 'E-posta doğrulandı. Hesabına yönlendiriliyorsun…');
-        location.href = '/panel.html';
+        location.href = (window.EMSYLLIS_BASE || '') + '/panel.html';
       } catch (error) {
         say(error && error.message ? error.message : 'Kayıt tamamlanamadı. Bilgileri kontrol et.');
       } finally {
@@ -88,7 +88,7 @@
       if (mode === 'login') {
         const email = String(data.get('username') || '').trim().toLowerCase();
         await Parse.User.logIn(email, String(data.get('password') || ''));
-        location.href = '/panel.html';
+        location.href = (window.EMSYLLIS_BASE || '') + '/panel.html';
       } else if (mode === 'reset') {
         await Parse.User.requestPasswordReset(String(data.get('email') || '').trim().toLowerCase());
         say('Adres kayıtlıysa parola sıfırlama bağlantısı gönderildi. Gelen kutunu kontrol et.');
