@@ -83,7 +83,10 @@
    }else if(data.type==='login-required'){
      feedback(activeClient.toUpperCase()+' hesabına giriş yap. Bu işlem EMSYLLIS şifreni istemez.');
    }else if(data.type==='status'){
-     if(data.linked){
+     if(data.linked && popup.__emsyllisRequestedAction==='unlink'){
+       send('unlink');
+       feedback(activeClient.toUpperCase()+' bağlantısı kaldırılıyor…');
+     }else if(data.linked){
        status(activeClient,'linked','EMSYLLIS hesabına bağlı');
        feedback(activeClient.toUpperCase()+' hesabı zaten bağlı.');
      }else if(popup.__emsyllisRequestedAction==='unlink'){
@@ -110,7 +113,6 @@
    button.addEventListener('click',function(){
      if(!window.confirm(button.dataset.client.toUpperCase()+' hesabının EMSYLLIS bağlantısını kaldırmak istiyor musun?'))return;
      openFlow(button.dataset.client,'unlink');
-     if(popup){var client=activeClient;var timer=window.setInterval(function(){if(!popup||popup.closed){window.clearInterval(timer);return;}try{send('unlink');window.clearInterval(timer);}catch(e){}},500);window.setTimeout(function(){window.clearInterval(timer);},8000);}
    });
  });
  try{
