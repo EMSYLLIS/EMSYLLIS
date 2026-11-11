@@ -9,9 +9,9 @@ This folder contains Parse Cloud Code for the dedicated EMSYLLIS Back4app Parse 
 
 ## Private email-verification settings — Back4App Config
 
-The email-verification module reads all three values from **Back4App → Parse Config** using `Parse.Config.get({ useMasterKey: true })`. No email-verification setting is sent by the browser, and none is read from `process.env`.
+The email-verification module reads all three values on the server: **Back4App → Parse Config** using `Parse.Config.get({ useMasterKey: true })` first, then **Back4App Server Settings → Environment Variables** as a fallback. No email-verification setting is sent by the browser.
 
-Create these three parameters in the EMSYLLIS Back4App application's Config section:
+Use these exact names in the EMSYLLIS Back4App application's Parse Config section and/or Server Settings → Environment Variables. If the same key exists in both places, Parse Config takes precedence:
 
 | Parameter name (exact) | Value |
 |---|---|
@@ -19,7 +19,7 @@ Create these three parameters in the EMSYLLIS Back4App application's Config sect
 | `EMSYLLIS_APPS_SCRIPT_SECRET` | A unique random secret of at least 32 characters; same value as the Apps Script Script Property |
 | `EMSYLLIS_CODE_PEPPER` | A different unique random secret of at least 32 characters |
 
-**For each of the three parameters, set “Requires master key?” to “Yes”.** This is essential: Parse Config parameters are otherwise publicly readable by clients. Cloud Code retrieves them with the master key, while browser clients cannot retrieve these private values. Never put these secrets in `assets/js/config.js`, HTML, GitHub, or client requests.
+If you store the values in Parse Config, set **“Requires master key?” to “Yes”** for each parameter. This prevents browser clients from reading them. Environment Variables are server-only. Never put these secrets in `assets/js/config.js`, HTML, GitHub, or client requests.
 
 The code does not create or guess the values. Add the real values directly in the Back4App Config dashboard. Do not reuse the Apps Script secret as the code pepper.
 
@@ -60,7 +60,7 @@ If any check is false, verify the exact parameter spelling, value, and that **Re
 ## Security and legal notes
 - Never expose Master Key, REST API Key, private tokens or email-provider credentials in browser files.
 - Configure restrictive Class-Level Permissions and retention/deletion procedures.
-- Apps Script sends mail from the Google account that owns the deployment and is subject to Google MailApp quotas.
+- Apps Script sends mail from the Google account that owns the deployment and is subject to Google MailApp quotas. The `replyTo` setting does not change the sender. If the visible sender must be `emsyllis.contact@gmail.com`, create/deploy the Apps Script web app while signed in to that mailbox (or configure it as a verified Gmail send-as alias).
 - The legal pages in the website are starter drafts, not legal advice or ready-to-sign contracts.
 
 ## Shared identity (EMSYLLIS ID)
