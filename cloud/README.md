@@ -44,7 +44,8 @@ The code does not create or guess the values. Add the real values directly in th
 Codes expire after 10 minutes. Cloud Code limits code requests and incorrect attempts. The browser keeps the password in memory only during the two-step registration; it is not saved to local storage.
 
 ## Back4app Parse settings
-- Deploy the **entire `cloud/` directory as one Cloud Code deployment**, preserving filenames and relative paths. At minimum it must contain `cloud/main.js`, `cloud/email-verification.js`, and `cloud/identity-assertions.js`. The main file loads the two helper modules with `require('./email-verification.js')` and `require('./identity-assertions.js')`.
+- Deploy the **entire `cloud/` directory as one Cloud Code deployment**, preserving filenames and relative paths. At minimum it must contain `cloud/main.js`, `cloud/email-verification.js`, and `cloud/identity-assertions.js`.
+- Use a Back4App Parse Server runtime based on **Node.js 18 or newer**. This module uses the native Node `fetch` API; Back4App's current release notes state that `Parse.Cloud.httpRequest` has been removed and recommend Fetch/Axios instead. The main file loads the two helper modules with `require('./email-verification.js')` and `require('./identity-assertions.js')`.
 - Uploading `main.js` alone is not sufficient. If either required helper module is absent, Cloud Code can fail to load or the registration functions will not be registered.
 - After deploying Cloud Code and adding all three private Config parameters, call `emsyllisEmailVerificationStatus`. It returns only readiness booleans, never values. Expected result: `moduleLoaded: true`, `ready: true`, and all three entries in `checks` set to `true`.
 
