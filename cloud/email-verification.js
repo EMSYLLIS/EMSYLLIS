@@ -13,12 +13,22 @@ const safeMatch = (a, b) => {
   return x.length === y.length && crypto.timingSafeEqual(x, y);
 };
 
-// Parse Config parameters must each have "Requires master key?" set to Yes.
+// Private values are read server-side: Parse Config first, then server environment variables.
 const readPrivateSettings = async () => {
-  const config = await Parse.Config.get({ useMasterKey: true });
-  const url = String(config.get('EMSYLLIS_APPS_SCRIPT_URL') || '').trim();
-  const secret = String(config.get('EMSYLLIS_APPS_SCRIPT_SECRET') || '');
-  const pepper = String(config.get('EMSYLLIS_CODE_PEPPER') || '');
+  let config = null;
+  try {
+    config = await Parse.Config.get({ useMasterKey: true });
+  } catch (error) {
+    console.warn('[EMSYLLIS] Parse Config read unavailable; checking server environment variables.');
+  }
+  const env = typeof process !== 'undefined' && process.env ? process.env : {};
+  const read = key => {
+    const fromConfig = config && typeof config.get === 'function' ? config.get(key) : '';
+    return String(fromConfig || env[key] || '').trim();
+  };
+  const url = read('EMSYLLIS_APPS_SCRIPT_URL');
+  const secret = read('EMSYLLIS_APPS_SCRIPT_SECRET');
+  const pepper = read('EMSYLLIS_CODE_PEPPER');
 
   const checks = {
     appsScriptUrl: /^https:\/\/script\.google\.com\/macros\/s\/.+\/exec$/.test(url),
@@ -27,12 +37,63 @@ const readPrivateSettings = async () => {
   };
 
   if (!Object.values(checks).every(Boolean)) {
-    const error = new Error('Email verification Back4App Config is incomplete.');
+    const error = new Error('Email verification server configuration is incomplete.');
     error.code = 'EMSYLLIS_CONFIG_INCOMPLETE';
     error.checks = checks;
     throw error;
   }
   return { url, secret, pepper, checks };
+};
+
+// Back4App Cloud Code runtimes may not expose Parse.Cloud.httpRequest.
+// Use native fetch and return only sanitized diagnostics.
+const requestMailGateway = async (url, options = {}) => {
+  if (typeof fetch !== 'function') {
+    const error = new Error('fetch_unavailable');
+    error.code = 'fetch_unavailable';
+    throw error;
+  }
+  const controller = typeof AbortController === 'function' ? new AbortController() : null;
+  const timeoutId = controller ? setTimeout(() => controller.abort(), 15000) : null;
+  try {
+    const response = await fetch(url, {
+      method: options.method || 'GET',
+      redirect: 'follow',
+      headers: options.body ? { 'Content-Type': 'application/json' } : undefined,
+      body: options.body ? JSON.stringify(options.body) : undefined,
+      signal: controller ? controller.signal : undefined
+    });
+    const raw = await response.text();
+    let data;
+    try {
+      data = JSON.parse(raw);
+    } catch (_) {
+      const error = new Error('invalid_response');
+      error.code = 'invalid_response';
+      throw error;
+    }
+    if (!response.ok) {
+      const error = new Error('http_' + response.status);
+      error.code = 'http_' + response.status;
+      throw error;
+    }
+    if (!data || typeof data !== 'object' || Array.isArray(data)) {
+      const error = new Error('invalid_response');
+      error.code = 'invalid_response';
+      throw error;
+    }
+    return { status: response.status, data };
+  } catch (error) {
+    if (error && error.code) throw error;
+    const code = error && (error.name === 'AbortError' || error.name === 'TimeoutError')
+      ? 'timeout'
+      : 'network_error';
+    const safeError = new Error(code);
+    safeError.code = code;
+    throw safeError;
+  } finally {
+    if (timeoutId) clearTimeout(timeoutId);
+  }
 };
 
 // Safe diagnostic: checks private Config and the public Apps Script health endpoint.
@@ -48,22 +109,15 @@ Parse.Cloud.define('emsyllisEmailVerificationStatus', async () => {
     const settings = await readPrivateSettings();
     checks = { ...settings.checks, gatewayReachable: false };
     try {
-      const response = await Parse.Cloud.httpRequest({
-        method: 'GET',
-        url: settings.url,
-        followRedirects: true
-      });
-      let payload = response.data;
-      if (!payload || typeof payload !== 'object') {
-        payload = JSON.parse(response.text || '{}');
-      }
+      const response = await requestMailGateway(settings.url);
+      const payload = response.data;
       checks.gatewayReachable = Boolean(
         response.status >= 200 && response.status < 300 &&
         payload && payload.service === 'EMSYLLIS mail gateway' &&
         payload.status === 'ready'
       );
     } catch (gatewayError) {
-      console.error('[EMSYLLIS] mail gateway health check failed:', gatewayError && gatewayError.message || 'unknown');
+      console.error('[EMSYLLIS] mail gateway health check failed:', gatewayError && gatewayError.code || 'network_error');
     }
     return {
       service: 'EMSYLLIS email verification',
@@ -119,39 +173,38 @@ Parse.Cloud.define('emsyllisSendVerificationCode', async request => {
   await challenge.save(null, { useMasterKey: true });
 
   try {
-    const response = await Parse.Cloud.httpRequest({
+    const response = await requestMailGateway(config.url, {
       method: 'POST',
-      url: config.url,
-      followRedirects: true,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
+      body: {
         action: 'sendVerificationCode',
         email,
         code,
         secret: config.secret
-      })
+      }
     });
-    const result = response.data && typeof response.data === 'object'
-      ? response.data
-      : JSON.parse(response.text || '{}');
+    const result = response.data;
     if (!result || result.ok !== true) {
       const serviceCode = result && typeof result.error === 'string' && /^[a-z_]+$/.test(result.error)
         ? result.error
         : 'invalid_response';
-      throw new Error('Email service rejected the request: ' + serviceCode);
+      const serviceError = new Error(serviceCode);
+      serviceError.code = serviceCode;
+      throw serviceError;
     }
   } catch (error) {
     challenge.set('consumed', true);
     await challenge.save(null, { useMasterKey: true });
     // Return only a safe diagnostic code; never expose the URL, secret, email, or code.
-    const raw = String(error && error.message || '');
-    const safeCode = [
+    const allowedCodes = [
       'not_configured', 'unauthorized', 'unsupported_action',
       'invalid_payload', 'invalid_response', 'rate_limited', 'daily_quota_exhausted',
-      'internal_error'
-    ].find(code => raw.includes(code));
-    const statusMatch = raw.match(/(?:status|code)[^0-9]*(4\d\d|5\d\d)/i);
-    const reason = safeCode || (statusMatch ? 'http_' + statusMatch[1] : 'gateway_or_network_error');
+      'internal_error', 'fetch_unavailable', 'network_error', 'timeout'
+    ];
+    const rawCode = String(error && error.code || '');
+    const httpCode = rawCode.match(/^http_(4\d\d|5\d\d)$/);
+    const reason = allowedCodes.includes(rawCode)
+      ? rawCode
+      : (httpCode ? rawCode : 'network_error');
     console.error('[EMSYLLIS] verification email send failed:', reason);
     throw new Error('Could not send the verification email. Diagnostic: ' + reason);
   }
