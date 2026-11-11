@@ -22,7 +22,7 @@
 <section class="grid" aria-label="Bağlanabilir uygulamalar">
 <article class="app" data-client="aethrion"><div class="app-mark">A</div><h2>AETHRION</h2><p>Yapay zekâ, üretkenlik ve geliştirici çalışma alanı.</p><div class="status" id="status-aethrion" data-state="unknown"><span class="dot"></span><span>Bağlantı henüz kontrol edilmedi</span></div><div class="app-actions"><button class="btn primary" data-action="connect" data-client="aethrion">Hesabı bağla</button><a class="btn" href="https://aethrion.dev/" target="_blank" rel="noopener noreferrer">AETHRION'u aç ↗</a><button class="btn" data-action="unlink" data-client="aethrion" hidden>Bağlantıyı kaldır</button></div><div class="app-note" id="note-aethrion">Bağlantı sırasında AETHRION hesabında da oturum açman gerekir.</div></article>
 <article class="app" data-client="sentrix"><div class="app-mark">S</div><h2>SENTRIX</h2><p>Dijital güven, alan adı doğrulama ve güvenlik analitiği.</p><div class="status" id="status-sentrix" data-state="unknown"><span class="dot"></span><span>Bağlantı henüz kontrol edilmedi</span></div><div class="app-actions"><button class="btn primary" data-action="connect" data-client="sentrix">Hesabı bağla</button><a class="btn" href="https://sentrix-security.vercel.app/" target="_blank" rel="noopener noreferrer">SENTRIX'i aç ↗</a><button class="btn" data-action="unlink" data-client="sentrix" hidden>Bağlantıyı kaldır</button></div><div class="app-note" id="note-sentrix">Bağlantı sırasında SENTRIX hesabında da oturum açman gerekir.</div></article>
-<article class="app" data-client="tdevkuantum"><div class="app-mark">T</div><h2>TdevKuantum</h2><p>Bilim, eğitim ve yeni nesil öğrenme çalışma alanı.</p><div class="status" id="status-tdevkuantum" data-state="pending"><span class="dot"></span><span>Entegrasyon bekliyor</span></div><div class="app-actions"><a class="btn primary" href="https://tdevkuantum.vercel.app/" target="_blank" rel="noopener noreferrer">TdevKuantum'u aç ↗</a></div><div class="app-note">Güncel TdevKuantum kaynak deposu doğrulanamadığı için bu uygulamada hesap bağlama etkinleştirilmedi.</div></article>
+<article class="app" data-client="tdevkuantum"><div class="app-mark">T</div><h2>TdevKuantum</h2><p>Bilim, eğitim ve yeni nesil öğrenme çalışma alanı.</p><div class="status" id="status-tdevkuantum" data-state="unknown"><span class="dot"></span><span>Bağlantı henüz kontrol edilmedi</span></div><div class="app-actions"><button class="btn primary" data-action="connect" data-client="tdevkuantum">Hesabı bağla</button><a class="btn" href="https://tdevkuantum.vercel.app/" target="_blank" rel="noopener noreferrer">TdevKuantum'u aç ↗</a><button class="btn" data-action="unlink" data-client="tdevkuantum" hidden>Bağlantıyı kaldır</button></div><div class="app-note">Bağlantı sırasında TdevKuantum hesabında da oturum açman gerekir.</div></article>
 </section>
 <p class="feedback" id="feedback" role="status" aria-live="polite"></p>
 <aside class="notice"><strong>Güvenlik ve veri sınırları</strong><br>EMSYLLIS diğer uygulamaların şifrelerini istemez veya saklamaz. Hesap bağlantısı, EMSYLLIS kimliğini kısa ömürlü imzalı bir bildirimle hedef uygulamada doğrular. Uygulama verileri kendi uygulamasında kalır. Bu sürüm hesap bağlantısını destekler; farklı Parse uygulamaları arasında tek tıkla oturum açma ve tüm özel verileri merkezi panele taşıma özelliği, ilgili sunucu kimlik doğrulama adaptörleri tamamlanmadan etkin değildir.</aside>
@@ -43,10 +43,10 @@
    var unlink=document.querySelector('[data-action="unlink"][data-client="'+client+'"]');
    if(unlink)unlink.hidden=state!=='linked';
  }
- function appUrl(client){return client==='aethrion'?'https://aethrion.dev/?emsyllis-link=1':'https://sentrix-security.vercel.app/?emsyllis-link=1';}
+ function appUrl(client){return client==='aethrion'?'https://aethrion.dev/?emsyllis-link=1':(client==='sentrix'?'https://sentrix-security.vercel.app/?emsyllis-link=1':'https://tdevkuantum.vercel.app/?emsyllis-link=1');}
  function send(action,data){
    if(!popup||popup.closed||!activeClient)return false;
-   popup.postMessage(Object.assign({source:'emsyllis-account-center',client:activeClient,action:action},data||{}),activeClient==='aethrion'?'https://aethrion.dev':'https://sentrix-security.vercel.app');
+   popup.postMessage(Object.assign({source:'emsyllis-account-center',client:activeClient,action:action},data||{}),activeClient==='aethrion'?'https://aethrion.dev':(activeClient==='sentrix'?'https://sentrix-security.vercel.app':'https://tdevkuantum.vercel.app'));
    return true;
  }
  async function issueAndSend(){
@@ -73,7 +73,7 @@
  }
  window.addEventListener('message',async function(event){
    if(!popup||event.source!==popup||!activeClient)return;
-   var expected=activeClient==='aethrion'?'https://aethrion.dev':'https://sentrix-security.vercel.app';
+   var expected=activeClient==='aethrion'?'https://aethrion.dev':(activeClient==='sentrix'?'https://sentrix-security.vercel.app':'https://tdevkuantum.vercel.app');
    if(event.origin!==expected)return;
    var data=event.data||{};
    if(data.source!=='emsyllis-destination-bridge'||data.client!==activeClient)return;
