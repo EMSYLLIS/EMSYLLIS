@@ -39,7 +39,7 @@ The projects in the EMSYLLIS portfolio are currently designed, built and maintai
 ## Back4app
 `assets/js/config.js` contains the public Parse Application ID and JavaScript key for the EMSYLLIS application. Do not paste AETHRION application keys here. Never expose a Master Key, REST API Key or server secret in client-side code.
 
-See [cloud/README.md](cloud/README.md) before deployment. Registration now uses a six-digit email code sent through [Google Apps Script](apps-script/Code.gs); the Apps Script URL and shared secrets must be configured only in Back4app Server Settings → Environment Variables. Public signup is blocked outside the verified Cloud Code flow.
+See [cloud/README.md](cloud/README.md) before deployment. Registration uses a six-digit email code sent through [Google Apps Script](apps-script/Code.gs). The three private settings (`EMSYLLIS_APPS_SCRIPT_URL`, `EMSYLLIS_APPS_SCRIPT_SECRET`, `EMSYLLIS_CODE_PEPPER`) are read server-side from Back4App Parse Config first, with Back4App server Environment Variables as a fallback. Never put these values in browser files or GitHub. Public signup is blocked outside the verified Cloud Code flow. Google Apps Script sends mail from the Google account that owns the deployment; deploy it while signed in as `emsyllis.contact@gmail.com` if that must be the sender address.
 
 ## Legal notice
 Legal pages are starter drafts, not legal advice or ready-to-sign contracts. Verify the responsible legal entity, data-processing purposes, retention periods, cross-border transfers, contact procedure and applicable Turkish requirements with a qualified adult/legal professional before collecting personal data or treating the pages as binding terms.
