@@ -2,12 +2,10 @@
 
 ## Repository and client integration status — 2026-11-10
 
-- The EMSYLLIS Account Center is published at `/account.html` and links to the existing login/registration flow of AETHRION, SENTRIX and TdevKuantum.
-- The shared application menu is installed in all three applications.
-- Main authentication code now emits a non-secret `emsyllis:auth-state` browser event on login/logout:
-  - AETHRION: `app.js`
-  - SENTRIX: `app.js`
-  - TdevKuantum: the Parse authentication block in `index.html`
+- The EMSYLLIS Account Center is published at `/account.html`; it now starts an explicit popup-based account-link flow for AETHRION, SENTRIX and TdevKuantum.
+- Each destination loads `emsyllis-account-bridge.js` and accepts messages only from the exact `https://emsyllis.tech` origin and the initiating popup.
+- Destination account linking requires an authenticated local user and verifies an audience-bound RS256 assertion. It stores only the immutable EMSYLLIS subject, not passwords, session tokens, or user data.
+- Main authentication code emits a non-secret `emsyllis:auth-state` browser event on login/logout in all three destinations.
 - The shared menu reads the current app's Parse session and displays only that app's local session state. It does not copy session tokens, passwords or user records.
 - Existing accounts and their app-specific data remain unchanged.
 - **SSO is not active.** The local session indicator is not a central EMSYLLIS identity and must not be described as one-account login.
@@ -31,3 +29,29 @@ The available repository connector can update GitHub source, but the current Bac
 ## Current user-facing wording
 
 The Account Center is an application launcher and account entry point. Each app currently authenticates against its existing account store. Do not claim "single account", "single sign-on", or cross-app session sharing until the complete central and destination-side backend exchange is deployed and tested.
+
+
+## Account-link bridge rollout — 2026-11-11
+
+The account center now uses a popup handshake:
+1. The member opens the destination app from the EMSYLLIS account center.
+2. The destination confirms its origin, opener window, client identifier and local authenticated user.
+3. EMSYLLIS issues a 180-second audience-bound assertion.
+4. The destination verifies the signature and links the immutable EMSYLLIS subject to the currently authenticated local account.
+5. The destination reports only link status to the opener. No password, Parse session token, or private app data is transferred.
+
+The bridge is installed in:
+- `EMSYLLIS/vizyon2026` (AETHRION)
+- `EMSYLLIS/SENTRIX`
+- `EMSYLLIS/Tdev2027` (TdevKuantum app source)
+
+The TdevKuantum source repository is named `Tdev2027`; this is not the Vizyon2027 repository. No Vizyon2027 repository was modified.
+
+## Required deployment configuration
+
+- EMSYLLIS Back4App Cloud Code server environment: `EMSYLLIS_ID_PRIVATE_KEY` (dedicated RSA private key).
+- Each destination Back4App Cloud Code server environment: matching `EMSYLLIS_ID_PUBLIC_KEY`.
+- The public key must correspond exactly to the private key used by EMSYLLIS.
+- Deploy the Cloud Code files to their respective Parse applications after setting the server-side keys.
+
+The repository changes do not create or configure these private server settings. Do not paste private keys, Master Keys, or session tokens into GitHub or chat.
