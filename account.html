@@ -33,7 +33,7 @@
 <script>
 (async function(){
  'use strict';
- var ORIGIN='https://emsyllis.tech', cfg=window.EMSYLLIS_CONFIG||{}, popup=null, activeClient=null, popupTimer=null;
+ var ORIGIN='https://emsyllis.tech', cfg=window.EMSYLLIS_CONFIG||{}, popup=null, activeClient=null, activeAction='connect', popupTimer=null;
  var $=function(id){return document.getElementById(id);};
  function feedback(message){$('feedback').textContent=message||'';}
  function status(client,state,message){
@@ -61,7 +61,7 @@
    }
  }
  function openFlow(client,action){
-   activeClient=client;
+   activeClient=client; activeAction=action;
    popup=window.open(appUrl(client),'emsyllis-'+client+'-account-link','popup,width=1080,height=780');
    if(!popup){feedback('Tarayıcı açılır pencereyi engelledi. Bu site için pop-up izni verip tekrar dene.');return;}
    status(client,'pending',action==='unlink'?'Bağlantı kaldırılıyor…':'Hedef uygulama bekleniyor…');
@@ -69,8 +69,7 @@
    popupTimer=window.setInterval(function(){
      if(!popup||popup.closed){window.clearInterval(popupTimer);popup=null;activeClient=null;}
    },700);
-   popup.__emsyllisRequestedAction=action;
- }
+  }
  window.addEventListener('message',async function(event){
    if(!popup||event.source!==popup||!activeClient)return;
    var expected=activeClient==='aethrion'?'https://aethrion.dev':(activeClient==='sentrix'?'https://sentrix-security.vercel.app':'https://tdevkuantum.vercel.app');
@@ -83,7 +82,7 @@
    }else if(data.type==='login-required'){
      feedback(activeClient.toUpperCase()+' hesabına giriş yap. Bu işlem EMSYLLIS şifreni istemez.');
    }else if(data.type==='status'){
-     if(data.linked && popup.__emsyllisRequestedAction==='unlink'){
+     if(data.linked && activeAction==='unlink'){
        send('unlink');
        feedback(activeClient.toUpperCase()+' bağlantısı kaldırılıyor…');
      }else if(data.linked){
