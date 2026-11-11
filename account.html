@@ -88,7 +88,7 @@
      }else if(data.linked){
        status(activeClient,'linked','EMSYLLIS hesabına bağlı');
        feedback(activeClient.toUpperCase()+' hesabı zaten bağlı.');
-     }else if(popup.__emsyllisRequestedAction==='unlink'){
+     }else if(activeAction==='unlink'){
        status(activeClient,'unknown','Bağlı hesap bulunamadı');
        feedback('Bu uygulamada kaldırılacak bir EMSYLLIS bağlantısı yok.');
      }else{
