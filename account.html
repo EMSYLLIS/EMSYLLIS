@@ -10,7 +10,7 @@
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -15%,#1b3553 0,transparent 56%),var(--bg);color:var(--text);font:15px/1.6 Inter,system-ui,sans-serif;min-height:100vh}
 .shell{width:min(1120px,calc(100% - 36px));margin:auto;padding:30px 0 56px}.top{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:20px;gap:16px}.brand{display:flex;align-items:center;gap:12px;color:#fff;text-decoration:none;font-weight:900;letter-spacing:.19em;font-size:14px}.brand img{width:36px;height:36px}.brand small{display:block;color:var(--muted);font-size:9px;letter-spacing:.17em}.top-links{display:flex;gap:18px;flex-wrap:wrap}.top-links a{color:var(--muted);text-decoration:none;font-size:12px}
 .hero{padding:58px 0 28px}.eyebrow{font-size:10px;letter-spacing:.22em;color:var(--accent);font-weight:850}.hero h1{font-size:clamp(36px,6vw,62px);line-height:1.04;letter-spacing:-.045em;margin:14px 0}.hero h1 span{color:var(--accent)}.hero p{max-width:700px;color:var(--muted);margin:0}
-.identity{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:18px 20px;border:1px solid var(--line);background:rgba(16,27,43,.82);border-radius:15px;margin:22px 0 30px}.identity strong{display:block;font-size:14px}.identity small{color:var(--muted)}.identity button,.btn{border:1px solid #3b526d;border-radius:10px;padding:10px 15px;background:#17283d;color:var(--text);font-weight:750;font-size:12px;cursor:pointer;text-decoration:none;display:inline-flex;justify-content:center;align-items:center;gap:8px}.btn.primary{background:#eaf4ff;color:#0b1727;border-color:#eaf4ff}.btn:disabled{opacity:.5;cursor:not-allowed}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.app{background:linear-gradient(145deg,#14243a,#0d1726);border:1px solid var(--line);border-radius:17px;padding:22px;display:flex;flex-direction:column;min-height:300px}.app-mark{width:46px;height:46px;border:1px solid #48617c;border-radius:13px;display:grid;place-items:center;color:var(--accent);font-size:21px;font-weight:900}.app h2{font-size:22px;letter-spacing:.04em;margin:18px 0 4px}.app p{color:var(--muted);font-size:12px;margin:0 0 16px}.status{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--muted);margin-bottom:17px}.dot{width:7px;height:7px;border-radius:50%;background:#728196}.status[data-state="linked"]{color:var(--good)}.status[data-state="linked"] .dot{background:var(--good)}.status[data-state="error"]{color:var(--bad)}.status[data-state="pending"]{color:var(--warn)}.app-actions{display:grid;gap:8px;margin-top:auto}.app-actions .btn{width:100%}.app-note{font-size:10px;color:#8091a7;margin-top:12px;min-height:30px}.notice{border:1px solid var(--line);background:rgba(16,27,43,.65);border-radius:13px;padding:15px 18px;color:var(--muted);font-size:12px;margin-top:20px}.notice strong{color:var(--text)}.feedback{min-height:22px;margin:16px 0 0;color:var(--accent);font-size:12px}.foot{border-top:1px solid var(--line);margin-top:44px;padding-top:17px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;color:#77879b;font-size:10px;letter-spacing:.12em}
+.identity{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:18px 20px;border:1px solid var(--line);background:rgba(16,27,43,.82);border-radius:15px;margin:22px 0 30px}.identity strong{display:block;font-size:14px}.identity small{color:var(--muted)}.identity button,.btn{border:1px solid #3b526d;border-radius:10px;padding:10px 15px;background:#17283d;color:var(--text);font-weight:750;font-size:12px;cursor:pointer;text-decoration:none;display:inline-flex;justify-content:center;align-items:center;gap:8px}.btn.primary{background:#eaf4ff;color:#0b1727;border-color:#eaf4ff}.btn:disabled{opacity:.5;cursor:not-allowed}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.app{background:linear-gradient(145deg,#14243a,#0d1726);border:1px solid var(--line);border-radius:17px;padding:22px;display:flex;flex-direction:column;min-height:300px}.app-mark{width:46px;height:46px;border:1px solid #48617c;border-radius:13px;display:grid;place-items:center;color:var(--accent);font-size:21px;font-weight:900}.app h2{font-size:22px;letter-spacing:.04em;margin:18px 0 4px}.app p{color:var(--muted);font-size:12px;margin:0 0 16px}.status{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--muted);margin-bottom:17px}.dot{width:7px;height:7px;border-radius:50%;background:#728196}.status[data-state="linked"]{color:var(--good)}.status[data-state="linked"] .dot{background:var(--good)}.status[data-state="error"]{color:var(--bad)}.status[data-state="pending"]{color:var(--warn)}.app-actions{display:grid;gap:8px;margin-top:auto}.app-actions .btn{width:100%}.account-data{margin-top:12px;padding:12px;border:1px solid var(--line);border-radius:10px;background:#0b1523}.account-data-row{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:11px}.account-data-row span{color:var(--muted)}.account-data-row strong{text-align:right;overflow-wrap:anywhere}.modal-backdrop{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:18px;background:rgba(2,7,14,.82);backdrop-filter:blur(12px)}.modal-backdrop[hidden]{display:none}.link-dialog{width:min(480px,100%);padding:26px;border:1px solid #38516d;border-radius:18px;background:linear-gradient(145deg,#14243a,#0b1422);box-shadow:0 28px 90px #0009}.link-dialog h2{margin:0 0 8px;font-size:24px}.link-dialog p{color:var(--muted);font-size:12px}.link-dialog label{display:block;margin:15px 0 6px;color:#cbd8e7;font-size:12px}.link-dialog input{width:100%;padding:13px;border:1px solid #3a526d;border-radius:9px;background:#081321;color:#fff;font:inherit}.link-dialog button{margin-top:14px}.link-result{min-height:42px;margin-top:12px;color:var(--accent);font-size:12px}.app-note{font-size:10px;color:#8091a7;margin-top:12px;min-height:30px}.notice{border:1px solid var(--line);background:rgba(16,27,43,.65);border-radius:13px;padding:15px 18px;color:var(--muted);font-size:12px;margin-top:20px}.notice strong{color:var(--text)}.feedback{min-height:22px;margin:16px 0 0;color:var(--accent);font-size:12px}.foot{border-top:1px solid var(--line);margin-top:44px;padding-top:17px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;color:#77879b;font-size:10px;letter-spacing:.12em}
 @media(max-width:780px){.grid{grid-template-columns:1fr}.app{min-height:250px}.hero{padding-top:42px}.identity{align-items:flex-start;flex-direction:column}.top{align-items:flex-start;flex-direction:column}}
 </style>
 </head>
@@ -20,113 +20,15 @@
 <section class="hero"><div class="eyebrow">ONE IDENTITY · CONNECTED WORKSPACES</div><h1>Hesapların.<br><span>Tek merkezden.</span></h1><p>EMSYLLIS hesabını doğrula, proje hesaplarını ayrı ayrı bağla ve her uygulamanın kendi güvenlik sınırları içinde yönetimini sürdür.</p></section>
 <section class="identity"><div><strong id="member-name">Üye oturumu doğrulanıyor…</strong><small id="member-email">Güvenli EMSYLLIS oturumu</small></div><button id="logout" type="button">Oturumu kapat</button></section>
 <section class="grid" aria-label="Bağlanabilir uygulamalar">
-<article class="app" data-client="aethrion"><div class="app-mark">A</div><h2>AETHRION</h2><p>Yapay zekâ, üretkenlik ve geliştirici çalışma alanı.</p><div class="status" id="status-aethrion" data-state="unknown"><span class="dot"></span><span>Bağlantı henüz kontrol edilmedi</span></div><div class="app-actions"><button class="btn primary" data-action="connect" data-client="aethrion">Hesabı bağla</button><a class="btn" href="https://aethrion.dev/" target="_blank" rel="noopener noreferrer">AETHRION'u aç ↗</a><button class="btn" data-action="unlink" data-client="aethrion" hidden>Bağlantıyı kaldır</button></div><div class="app-note" id="note-aethrion">Bağlantı sırasında AETHRION hesabında da oturum açman gerekir.</div></article>
-<article class="app" data-client="sentrix"><div class="app-mark">S</div><h2>SENTRIX</h2><p>Dijital güven, alan adı doğrulama ve güvenlik analitiği.</p><div class="status" id="status-sentrix" data-state="unknown"><span class="dot"></span><span>Bağlantı henüz kontrol edilmedi</span></div><div class="app-actions"><button class="btn primary" data-action="connect" data-client="sentrix">Hesabı bağla</button><a class="btn" href="https://sentrix-security.vercel.app/" target="_blank" rel="noopener noreferrer">SENTRIX'i aç ↗</a><button class="btn" data-action="unlink" data-client="sentrix" hidden>Bağlantıyı kaldır</button></div><div class="app-note" id="note-sentrix">Bağlantı sırasında SENTRIX hesabında da oturum açman gerekir.</div></article>
-<article class="app" data-client="tdevkuantum"><div class="app-mark">T</div><h2>TdevKuantum</h2><p>Bilim, eğitim ve yeni nesil öğrenme çalışma alanı.</p><div class="status" id="status-tdevkuantum" data-state="unknown"><span class="dot"></span><span>Bağlantı henüz kontrol edilmedi</span></div><div class="app-actions"><button class="btn primary" data-action="connect" data-client="tdevkuantum">Hesabı bağla</button><a class="btn" href="https://tdevkuantum.vercel.app/" target="_blank" rel="noopener noreferrer">TdevKuantum'u aç ↗</a><button class="btn" data-action="unlink" data-client="tdevkuantum" hidden>Bağlantıyı kaldır</button></div><div class="app-note">Bağlantı sırasında TdevKuantum hesabında da oturum açman gerekir.</div></article>
+<article class="app" data-client="aethrion"><div class="app-mark">A</div><h2>AETHRION</h2><p>Yapay zekâ, üretkenlik ve geliştirici çalışma alanı.</p><div class="status" id="status-aethrion" data-state="unknown"><span class="dot"></span><span>Bağlantı henüz kontrol edilmedi</span></div><div class="app-actions"><button class="btn primary" data-action="connect" data-client="aethrion">Hesabı bağla</button><a class="btn" href="https://aethrion.dev/" target="_blank" rel="noopener noreferrer">AETHRION'u aç ↗</a><button class="btn" data-action="unlink" data-client="aethrion" hidden>Bağlantıyı kaldır</button></div><button class="btn" id="details-aethrion" data-action="details" data-client="aethrion" hidden>Hesap verilerini görüntüle</button><div class="account-data" id="account-data-aethrion" hidden></div><div class="app-note" id="note-aethrion">AETHRION hesabını bu merkezde doğrula.</div></article>
+<article class="app" data-client="sentrix"><div class="app-mark">S</div><h2>SENTRIX</h2><p>Dijital güven, alan adı doğrulama ve güvenlik analitiği.</p><div class="status" id="status-sentrix" data-state="unknown"><span class="dot"></span><span>Bağlantı henüz kontrol edilmedi</span></div><div class="app-actions"><button class="btn primary" data-action="connect" data-client="sentrix">Hesabı bağla</button><a class="btn" href="https://sentrix-security.vercel.app/" target="_blank" rel="noopener noreferrer">SENTRIX'i aç ↗</a><button class="btn" data-action="unlink" data-client="sentrix" hidden>Bağlantıyı kaldır</button></div><button class="btn" id="details-sentrix" data-action="details" data-client="sentrix" hidden>Hesap verilerini görüntüle</button><div class="account-data" id="account-data-sentrix" hidden></div><div class="app-note" id="note-sentrix">SENTRIX hesabını bu merkezde doğrula.</div></article>
+<article class="app" data-client="tdevkuantum"><div class="app-mark">T</div><h2>TdevKuantum</h2><p>Bilim, eğitim ve yeni nesil öğrenme çalışma alanı.</p><div class="status" id="status-tdevkuantum" data-state="unknown"><span class="dot"></span><span>Bağlantı henüz kontrol edilmedi</span></div><div class="app-actions"><button class="btn primary" data-action="connect" data-client="tdevkuantum">Hesabı bağla</button><a class="btn" href="https://tdevkuantum.vercel.app/" target="_blank" rel="noopener noreferrer">TdevKuantum'u aç ↗</a><button class="btn" data-action="unlink" data-client="tdevkuantum" hidden>Bağlantıyı kaldır</button></div><button class="btn" id="details-tdevkuantum" data-action="details" data-client="tdevkuantum" hidden>Hesap verilerini görüntüle</button><div class="account-data" id="account-data-tdevkuantum" hidden></div><div class="app-note">TdevKuantum hesabını bu merkezde doğrula.</div></article>
 </section>
-<p class="feedback" id="feedback" role="status" aria-live="polite"></p>
+<p class="feedback" id="feedback" role="status" aria-live="polite"></p><div class="modal-backdrop" id="link-modal" hidden><section class="link-dialog" role="dialog" aria-modal="true" aria-labelledby="link-title"><h2 id="link-title">Hesabı bağla</h2><p id="link-description"></p><form id="credential-form"><label for="credential-email">E-posta</label><input id="credential-email" type="email" autocomplete="username" required maxlength="180"><label for="credential-password">Şifre</label><input id="credential-password" type="password" autocomplete="current-password" required maxlength="1024"><button class="btn primary" id="credential-submit" type="submit">Hesabı doğrula ve bağla</button></form><div class="link-result" id="link-result" role="status" aria-live="polite"></div><button class="btn" id="link-close" type="button">Kapat</button></section></div>
 <aside class="notice"><strong>Güvenlik ve veri sınırları</strong><br>EMSYLLIS diğer uygulamaların şifrelerini istemez veya saklamaz. Hesap bağlantısı, EMSYLLIS kimliğini kısa ömürlü imzalı bir bildirimle hedef uygulamada doğrular. Uygulama verileri kendi uygulamasında kalır. Bu sürüm hesap bağlantısını destekler; farklı Parse uygulamaları arasında tek tıkla oturum açma ve tüm özel verileri merkezi panele taşıma özelliği, ilgili sunucu kimlik doğrulama adaptörleri tamamlanmadan etkin değildir.</aside>
 <footer class="foot"><span>© 2026 EMSYLLIS · IDENTITY CENTER</span><span>BEYOND WHAT IS KNOWN</span></footer>
 </main>
 <script src="https://cdn.jsdelivr.net/npm/parse@4.3.0/dist/parse.min.js"></script>
 <script src="assets/js/config.js"></script>
-<script>
-(async function(){
- 'use strict';
- var ORIGIN='https://emsyllis.tech', cfg=window.EMSYLLIS_CONFIG||{}, popup=null, activeClient=null, activeAction='connect', popupTimer=null;
- var $=function(id){return document.getElementById(id);};
- function feedback(message){$('feedback').textContent=message||'';}
- function status(client,state,message){
-   var el=$('status-'+client); if(!el)return;
-   el.dataset.state=state;
-   var span=el.querySelector('span:last-child'); if(span)span.textContent=message;
-   var unlink=document.querySelector('[data-action="unlink"][data-client="'+client+'"]');
-   if(unlink)unlink.hidden=state!=='linked';
- }
- function appUrl(client){return client==='aethrion'?'https://aethrion.dev/?emsyllis-link=1':(client==='sentrix'?'https://sentrix-security.vercel.app/?emsyllis-link=1':'https://tdevkuantum.vercel.app/?emsyllis-link=1');}
- function send(action,data){
-   if(!popup||popup.closed||!activeClient)return false;
-   popup.postMessage(Object.assign({source:'emsyllis-account-center',client:activeClient,action:action},data||{}),activeClient==='aethrion'?'https://aethrion.dev':(activeClient==='sentrix'?'https://sentrix-security.vercel.app':'https://tdevkuantum.vercel.app'));
-   return true;
- }
- async function issueAndSend(){
-   try{
-     feedback('EMSYLLIS kimliği hedef uygulama için imzalanıyor…');
-     var result=await Parse.Cloud.run('emsyllisIssueLinkAssertion',{client:activeClient});
-     if(!result||!result.assertion)throw new Error('ASSERTION_NOT_RETURNED');
-     send('link',{assertion:result.assertion});
-   }catch(error){
-     feedback('Kimlik doğrulama bildirimi üretilemedi: '+String(error&&error.message||error).slice(0,150)+'. EMSYLLIS_ID_PRIVATE_KEY sunucu ayarını kontrol edin.');
-     status(activeClient,'error','Sunucu anahtarı veya yapılandırma eksik');
-   }
- }
- function openFlow(client,action){
-   activeClient=client; activeAction=action;
-   popup=window.open(appUrl(client),'emsyllis-'+client+'-account-link','popup,width=1080,height=780');
-   if(!popup){feedback('Tarayıcı açılır pencereyi engelledi. Bu site için pop-up izni verip tekrar dene.');return;}
-   status(client,'pending',action==='unlink'?'Bağlantı kaldırılıyor…':'Hedef uygulama bekleniyor…');
-   feedback('Açılan uygulamada kendi hesabına giriş yap. Şifren yalnızca ilgili uygulamaya gönderilir.');
-   popupTimer=window.setInterval(function(){
-     if(!popup||popup.closed){window.clearInterval(popupTimer);popup=null;activeClient=null;}
-   },700);
-  }
- window.addEventListener('message',async function(event){
-   if(!popup||event.source!==popup||!activeClient)return;
-   var expected=activeClient==='aethrion'?'https://aethrion.dev':(activeClient==='sentrix'?'https://sentrix-security.vercel.app':'https://tdevkuantum.vercel.app');
-   if(event.origin!==expected)return;
-   var data=event.data||{};
-   if(data.source!=='emsyllis-destination-bridge'||data.client!==activeClient)return;
-   if(data.type==='ready'){
-     if(!data.authenticated){feedback(activeClient.toUpperCase()+' hesabında oturum açman gerekiyor. Giriş tamamlanınca bağlantı devam edecek.');return;}
-     send('status');
-   }else if(data.type==='login-required'){
-     feedback(activeClient.toUpperCase()+' hesabına giriş yap. Bu işlem EMSYLLIS şifreni istemez.');
-   }else if(data.type==='status'){
-     if(data.linked && activeAction==='unlink'){
-       send('unlink');
-       feedback(activeClient.toUpperCase()+' bağlantısı kaldırılıyor…');
-     }else if(data.linked){
-       status(activeClient,'linked','EMSYLLIS hesabına bağlı');
-       feedback(activeClient.toUpperCase()+' hesabı zaten bağlı.');
-     }else if(activeAction==='unlink'){
-       status(activeClient,'unknown','Bağlı hesap bulunamadı');
-       feedback('Bu uygulamada kaldırılacak bir EMSYLLIS bağlantısı yok.');
-     }else{
-       await issueAndSend();
-     }
-   }else if(data.type==='linked'){
-     status(activeClient,'linked','EMSYLLIS hesabına bağlı');
-     feedback(activeClient.toUpperCase()+' hesabı güvenli şekilde bağlandı.');
-   }else if(data.type==='unlinked'){
-     status(activeClient,'unknown','Bağlantı kaldırıldı');
-     feedback(activeClient.toUpperCase()+' bağlantısı kaldırıldı.');
-   }else if(data.type==='error'){
-     status(activeClient,'error','Bağlantı doğrulanamadı');
-     feedback('Bağlantı hatası: '+String(data.code||'UNKNOWN').slice(0,150));
-   }
- });
- document.querySelectorAll('[data-action="connect"]').forEach(function(button){
-   button.addEventListener('click',function(){openFlow(button.dataset.client,'connect');});
- });
- document.querySelectorAll('[data-action="unlink"]').forEach(function(button){
-   button.addEventListener('click',function(){
-     if(!window.confirm(button.dataset.client.toUpperCase()+' hesabının EMSYLLIS bağlantısını kaldırmak istiyor musun?'))return;
-     openFlow(button.dataset.client,'unlink');
-   });
- });
- try{
-   if(!(cfg.APP_ID&&cfg.JAVASCRIPT_KEY&&window.Parse))throw new Error('EMSYLLIS_AUTH_NOT_CONFIGURED');
-   Parse.initialize(cfg.APP_ID,cfg.JAVASCRIPT_KEY);Parse.serverURL=cfg.SERVER_URL||'https://parseapi.back4app.com';
-   var user=await Parse.User.currentAsync();
-   if(!user){location.replace('/auth/login.html');return;}
-   $('member-name').textContent='EMSYLLIS üye hesabı';
-   $('member-email').textContent=user.getEmail()||user.getUsername()||'Oturum doğrulandı';
-   document.body.style.visibility='visible';
- }catch(error){
-   feedback('Hesap merkezi başlatılamadı: '+String(error&&error.message||error));
-   if(!document.body.style.visibility)document.body.style.visibility='visible';
- }
- $('logout').addEventListener('click',async function(){try{await Parse.User.logOut();location.replace('/auth/login.html');}catch(e){feedback('Oturum kapatılamadı.');}});
-})();
-</script>
+<script src="assets/js/account-center.js?v=20261112-accountlink1"></script>
 </body></html>
