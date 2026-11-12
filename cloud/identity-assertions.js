@@ -15,7 +15,7 @@ const EMSYLLIS_ID_CLIENTS = Object.freeze({
 });
 const emsyllisIdB64Url = value => Buffer.from(value).toString('base64').replace(/=/g, '').split('+').join('-').split('/').join('_');
 const emsyllisIdPrivateKey = async () => {
-  const key = String((await Parse.Config.get()).get('EMSYLLIS_ID_PRIVATE_KEY') || '').replace(/\\n/g, '\n').trim();
+  const key = String((await Parse.Config.get({ useMasterKey: true })).get('EMSYLLIS_ID_PRIVATE_KEY') || '').replace(/\\n/g, '\n').trim();
   if (!key || !key.includes('PRIVATE KEY')) throw new Error('EMSYLLIS_ID_PRIVATE_KEY_NOT_CONFIGURED');
   return key;
 };
