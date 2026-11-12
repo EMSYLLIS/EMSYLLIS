@@ -1,6 +1,6 @@
 /*
  * EMSYLLIS ID — central, short-lived account-link assertion issuer.
- * Requires EMSYLLIS_ID_PRIVATE_KEY in EMSYLLIS Back4App server environment.
+ * Requires EMSYLLIS_ID_PRIVATE_KEY in EMSYLLIS Back4App Config.
  * This issues audience-bound account-link assertions; it does NOT mint sessions
  * for other Parse applications. A supported destination auth adapter is still
  * required for seamless OIDC/SSO.
@@ -14,16 +14,16 @@ const EMSYLLIS_ID_CLIENTS = Object.freeze({
   tdevkuantum: 'tdevkuantum'
 });
 const emsyllisIdB64Url = value => Buffer.from(value).toString('base64').replace(/=/g, '').split('+').join('-').split('/').join('_');
-const emsyllisIdPrivateKey = () => {
-  const key = String(process.env.EMSYLLIS_ID_PRIVATE_KEY || '').replace(/\\n/g, '\n').trim();
+const emsyllisIdPrivateKey = async () => {
+  const key = String((await Parse.Config.get()).get('EMSYLLIS_ID_PRIVATE_KEY') || '').replace(/\\n/g, '\n').trim();
   if (!key || !key.includes('PRIVATE KEY')) throw new Error('EMSYLLIS_ID_PRIVATE_KEY_NOT_CONFIGURED');
   return key;
 };
-function emsyllisIdSign(payload) {
+async function emsyllisIdSign(payload) {
   const header = emsyllisIdB64Url(JSON.stringify({ alg: 'RS256', typ: 'JWT' }));
   const body = emsyllisIdB64Url(JSON.stringify(payload));
   const input = header + '.' + body;
-  const signature = emsyllisIdCrypto.sign('RSA-SHA256', Buffer.from(input), emsyllisIdPrivateKey());
+  const signature = emsyllisIdCrypto.sign('RSA-SHA256', Buffer.from(input), await emsyllisIdPrivateKey());
   return input + '.' + emsyllisIdB64Url(signature);
 }
 Parse.Cloud.define('emsyllisIssueLinkAssertion', async request => {
@@ -39,7 +39,7 @@ Parse.Cloud.define('emsyllisIssueLinkAssertion', async request => {
   if (recent.length >= 20) throw new Error('IDENTITY_ASSERTION_RATE_LIMITED');
   const now = Math.floor(Date.now() / 1000);
   const jti = emsyllisIdCrypto.randomBytes(24).toString('hex');
-  const token = emsyllisIdSign({
+  const token = await emsyllisIdSign({
     iss: EMSYLLIS_ID_ISSUER,
     aud: audience,
     sub: request.user.id,
