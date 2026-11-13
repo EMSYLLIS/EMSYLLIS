@@ -1,8 +1,7 @@
 (() => {
-const cfg=window.EMSYLLIS_CONFIG||{};
-if(!(cfg.APP_ID&&cfg.JAVASCRIPT_KEY&&window.Parse)){const s=document.getElementById('account-state');if(s)s.textContent='Hesap altyapısı henüz yapılandırılmadı.';return;}
-if(!window.__EMSYLLIS_PARSE_INITIALIZED){Parse.initialize(cfg.APP_ID,cfg.JAVASCRIPT_KEY);Parse.serverURL=cfg.SERVER_URL||'https://parseapi.back4app.com';window.__EMSYLLIS_PARSE_INITIALIZED=true;}
-const user=Parse.User.current();if(!user){location.replace((window.EMSYLLIS_BASE || '') + '/auth/login.html');return;}
-const el=document.getElementById('account-state');if(el)el.textContent='Oturum açık: '+(user.getEmail()||user.getUsername());
-const btn=document.getElementById('logout');if(btn)btn.addEventListener('click',async()=>{await Parse.User.logOut();location.href=(window.EMSYLLIS_BASE || '')+'/';});
+'use strict';
+const cfg=window.EMSYLLIS_CONFIG||{},base=window.EMSYLLIS_BASE||'',byId=id=>document.getElementById(id);
+function setSession(ok,message){const state=byId('account-state'),indicator=byId('session-indicator'),label=byId('session-label'),metric=byId('metric-session');if(state){state.textContent=message;state.dataset.state=ok?'active':'inactive';}if(indicator)indicator.textContent=ok?'ACTIVE':'NOT VERIFIED';if(label)label.textContent=ok?'Güvenli oturum aktif':'Oturum doğrulanamadı';if(metric)metric.textContent=ok?'AKTİF':'—';}
+async function init(){if(!(cfg.APP_ID&&cfg.JAVASCRIPT_KEY&&window.Parse)){setSession(false,'Hesap altyapısı yapılandırılmamış');return;}try{if(!window.__EMSYLLIS_PARSE_INITIALIZED){Parse.initialize(cfg.APP_ID,cfg.JAVASCRIPT_KEY);Parse.serverURL=cfg.SERVER_URL||'https://parseapi.back4app.com';window.__EMSYLLIS_PARSE_INITIALIZED=true;}const user=await Parse.User.currentAsync();if(!user){location.replace(base+'/auth/login.html');return;}const email=user.getEmail()||user.getUsername()||'Oturum doğrulandı',display=user.get('displayName')||user.get('name')||user.getUsername()||'EMSYLLIS üyesi';if(byId('member-name'))byId('member-name').textContent=display;if(byId('member-email'))byId('member-email').textContent=email;if(byId('member-initial'))byId('member-initial').textContent=(display.trim()[0]||'E').toLocaleUpperCase('tr-TR');setSession(true,'Oturum açık');const logout=byId('logout');if(logout)logout.addEventListener('click',async()=>{logout.disabled=true;logout.textContent='Oturum kapatılıyor…';try{await Parse.User.logOut();location.replace(base+'/');}catch(e){logout.disabled=false;logout.textContent='Oturumu kapat ↗';setSession(true,'Oturum kapatılamadı; tekrar deneyin');console.error('[EMSYLLIS dashboard] logout failed',e);}});}catch(error){setSession(false,'Oturum doğrulanamadı');console.error('[EMSYLLIS dashboard] session check failed',error);}}
+init();
 })();
