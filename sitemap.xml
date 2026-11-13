@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url><loc>https://emsyllis.tech/</loc></url>
-<url><loc>https://emsyllis.tech/about.html</loc></url>
-<url><loc>https://emsyllis.tech/projects.html</loc></url>
+<url><loc>https://emsyllis.tech/about.html</loc><lastmod>2026-11-13</lastmod></url>
+<url><loc>https://emsyllis.tech/projects.html</loc><lastmod>2026-11-13</lastmod></url>
 <url><loc>https://emsyllis.tech/projects/aethrion-llm.html</loc></url>
-<url><loc>https://emsyllis.tech/projects/tdevkuantum.html</loc></url>
+<url><loc>https://emsyllis.tech/projects/tdevkuantum.html</loc><lastmod>2026-11-13</lastmod></url>
 <url><loc>https://emsyllis.tech/career.html</loc></url>
 <url><loc>https://emsyllis.tech/contact.html</loc></url>
 <url><loc>https://emsyllis.tech/legal/terms.html</loc></url>
