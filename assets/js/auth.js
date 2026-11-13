@@ -1,9 +1,10 @@
 (() => {
   const cfg = window.EMSYLLIS_CONFIG || {};
   const configured = Boolean(cfg.APP_ID && cfg.JAVASCRIPT_KEY && window.Parse);
-  if (configured) {
+  if (configured && !window.__EMSYLLIS_PARSE_INITIALIZED) {
     Parse.initialize(cfg.APP_ID, cfg.JAVASCRIPT_KEY);
     Parse.serverURL = cfg.SERVER_URL || 'https://parseapi.back4app.com';
+    window.__EMSYLLIS_PARSE_INITIALIZED = true;
   }
   const form = document.querySelector('[data-auth-form]');
   const message = form && form.querySelector('.form-message');
