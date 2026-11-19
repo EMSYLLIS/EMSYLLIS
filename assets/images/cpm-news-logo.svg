@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+<title id="title">CPM NEWS</title><desc id="desc">Car Parking Multiplayer topluluk haberleri logosu</desc>
+<defs><radialGradient id="g" cx="35%" cy="25%" r="80%"><stop offset="0" stop-color="#263b59"/><stop offset="1" stop-color="#080f1c"/></radialGradient><linearGradient id="silver" x2="0" y2="1"><stop stop-color="#fff"/><stop offset=".48" stop-color="#9eabba"/><stop offset="1" stop-color="#eef2f7"/></linearGradient><linearGradient id="red" x2="0" y2="1"><stop stop-color="#ff5265"/><stop offset="1" stop-color="#c5102a"/></linearGradient></defs>
+<circle cx="128" cy="128" r="119" fill="#070c16" stroke="#d51c35" stroke-width="7"/><circle cx="128" cy="128" r="108" fill="url(#g)" stroke="#9eabba" stroke-width="2"/>
+<g fill="none" stroke="#8b9bb0" stroke-opacity=".48" stroke-width="2"><ellipse cx="128" cy="116" rx="76" ry="31"/><ellipse cx="128" cy="116" rx="34" ry="76"/><path d="M54 116h148M62 88h132M62 144h132"/></g>
+<path d="M177 34h53v12h-53z" fill="#fff"/><path d="M177 46h53v12h-53z" fill="#d71936"/><path d="M177 58h53v12h-53z" fill="#fff"/><path d="M177 34h13v36h-13z" fill="#111b2a"/>
+<path d="M22 147h212v61H22z" fill="#08101d" stroke="#d51c35" stroke-width="3"/>
+<text x="128" y="137" text-anchor="middle" font-family="Arial,sans-serif" font-size="75" font-weight="900" font-style="italic" letter-spacing="-8" fill="url(#silver)" stroke="#101a29" stroke-width="2" paint-order="stroke">CPM</text>
+<text x="128" y="193" text-anchor="middle" font-family="Arial,sans-serif" font-size="43" font-weight="900" font-style="italic" letter-spacing="2" fill="url(#red)">NEWS</text>
+<path d="M32 219h192" stroke="#d7a64c" stroke-width="3" stroke-linecap="round"/><path d="M43 229h170" stroke="#fff" stroke-opacity=".3" stroke-width="1"/>
+</svg>
