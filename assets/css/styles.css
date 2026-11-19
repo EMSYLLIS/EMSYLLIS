@@ -232,3 +232,82 @@ body.member-workspace .site-footer{background:#061321;border-top:1px solid #1d34
 
 /* EMSYLLIS — supported and gifted initiatives */
 .ih-support{padding:92px 0;background:#e9eff4;border-top:1px solid #d6e1e9;border-bottom:1px solid #d6e1e9}.ih-support-top{display:flex;align-items:end;justify-content:space-between;gap:35px;margin-bottom:30px}.ih-support-top .ih-overline{color:#567e9f}.ih-support-top h2{margin:12px 0 0;color:#152d44;font-size:clamp(38px,4.6vw,56px);line-height:1.08;letter-spacing:-.06em}.ih-support-top>p{max-width:390px;margin:0;color:#6b7d8f;font-size:12px;line-height:1.9}.ih-support-card{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);max-width:940px;min-height:280px;background:#081a2b;border:1px solid #213c55;box-shadow:0 20px 50px rgba(14,38,60,.12);overflow:hidden}.ih-support-art{position:relative;min-height:280px;background:#0b2034;overflow:hidden}.ih-support-art:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 55%,#081a2b)}.ih-support-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.9}.ih-support-art>span{position:absolute;z-index:1;left:20px;top:20px;color:#d7e9f7;font:8px 'DM Mono',monospace;letter-spacing:.13em}.ih-support-art>b{position:absolute;z-index:1;right:20px;top:14px;color:#eaf5ff;font-size:22px}.ih-support-copy{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding:35px 38px}.ih-support-status{color:#86c5e5;font:8px 'DM Mono',monospace;letter-spacing:.14em}.ih-support-copy h3{margin:14px 0 9px;color:#f1f6fb;font-size:30px;letter-spacing:-.04em}.ih-support-copy p{max-width:440px;margin:0 0 22px;color:#a9bdcf;font-size:12px;line-height:1.9}.ih-support-copy>a{display:inline-flex;align-items:center;gap:24px;min-height:42px;padding:0 15px;background:#d9e9f4;color:#102940;font-size:10px;font-weight:800}.ih-support-copy>a:hover{background:#fff}.ih-support-copy>a span{font-size:15px}.ih-support-note{margin-top:14px;color:#71869a;font:8px 'DM Mono',monospace;letter-spacing:.04em}@media(max-width:700px){.ih-support{padding:72px 0}.ih-support-top{align-items:flex-start;flex-direction:column;gap:12px}.ih-support-card{grid-template-columns:1fr}.ih-support-art{min-height:205px}.ih-support-art:after{background:linear-gradient(0deg,#081a2b,transparent 65%)}.ih-support-copy{padding:25px 22px 28px}.ih-support-copy h3{font-size:26px}}
+
+
+/* EMSYLLIS supported initiative — dedicated CPM NEWS presentation */
+.ih-support-home{padding:82px 0;background:#e9eff4;border-top:1px solid #d6e1e9;border-bottom:1px solid #d6e1e9}
+.ih-support-home-inner{display:flex;align-items:center;justify-content:space-between;gap:30px}
+.ih-support-home h2{margin:10px 0 8px;color:#152d44;font-size:clamp(36px,4.4vw,52px);letter-spacing:-.06em;line-height:1.1}
+.ih-support-home p{max-width:510px;margin:0;color:#6b7d8f;font-size:12px;line-height:1.9}
+.ih-support-home-button,.support-detail-button{display:inline-flex;align-items:center;justify-content:space-between;gap:28px;min-height:50px;padding:0 19px;background:#102a42;color:#f2f7fc;font-size:10px;font-weight:800;white-space:nowrap;transition:background .2s,transform .2s}
+.ih-support-home-button:hover,.support-detail-button:hover{background:#245579;transform:translateY(-2px)}
+.ih-support-home-button span,.support-detail-button span{font-size:16px}
+.support-detail-page{background:#f3f6f8}
+.support-detail-hero{position:relative;overflow:hidden;background:#071321;color:#f3f7fb;padding:92px 0 88px}
+.support-detail-hero:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 80% 48%,rgba(196,35,57,.17),transparent 28%),linear-gradient(115deg,transparent 50%,rgba(40,85,125,.2));pointer-events:none}
+.support-detail-hero-grid{position:relative;display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:45px}
+.support-detail-copy .ih-overline{color:#8eb8d9}
+.support-detail-kicker{display:flex;align-items:center;gap:10px;margin-top:33px;color:#c4d5e5;font:8px 'DM Mono';letter-spacing:.16em}
+.support-detail-kicker span{width:7px;height:7px;border-radius:50%;background:#d84a5c;box-shadow:0 0 0 5px rgba(216,74,92,.13)}
+.support-detail-copy h1{margin:20px 0 22px;color:#f5f8fc;font-size:clamp(58px,7vw,88px);line-height:.98;letter-spacing:-.08em}
+.support-detail-copy h1 em,.support-detail-intro h2 em,.support-detail-section-head h2 em,.support-detail-features h2 em,.support-detail-flow h2 em,.support-detail-gift h2 em{color:#83bce3;font-style:normal}
+.support-detail-copy>p{max-width:510px;color:#b5c5d4;font-size:14px;line-height:1.9;margin:0 0 30px}
+.support-detail-button{background:#e7f1f9;color:#10263b}
+.support-detail-button:hover{background:#fff}
+.support-detail-brand{min-height:390px;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;border:1px solid rgba(175,204,228,.17);background:radial-gradient(circle,rgba(37,66,94,.56),rgba(8,22,37,.5) 65%);overflow:hidden}
+.support-detail-brand img{position:relative;z-index:1;width:min(230px,58%);filter:drop-shadow(0 18px 35px rgba(0,0,0,.35))}
+.support-detail-brand>span,.support-detail-brand>b{position:relative;z-index:1;color:#a9bfd2;font:8px 'DM Mono';letter-spacing:.16em;text-align:center}
+.support-detail-brand>b{color:#d7a1a9}
+.support-detail-orbit{position:absolute;width:310px;height:310px;border:1px solid rgba(170,201,228,.16);border-radius:50%;box-shadow:0 0 0 32px rgba(170,201,228,.025),0 0 0 68px rgba(170,201,228,.018)}
+.support-detail-intro{padding:100px 0;background:#fff}
+.support-detail-intro-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:65px}
+.support-detail-intro h2,.support-detail-section-head h2,.support-detail-flow h2{margin:14px 0 0;color:#162f47;font-size:clamp(42px,5vw,60px);line-height:1.02;letter-spacing:-.065em}
+.support-detail-intro h2 em,.support-detail-section-head h2 em,.support-detail-flow h2 em{color:#356e9a}
+.support-detail-intro-grid>div:nth-child(2)>p{color:#687b8e;font-size:13px;line-height:2;margin:0 0 17px}
+.support-detail-intro-grid>div:nth-child(2)>.support-detail-lead{color:#1b354d;font-size:19px;line-height:1.65;font-weight:700}
+.support-detail-categories{padding:100px 0;background:#eaf0f5}
+.support-detail-section-head{display:flex;align-items:end;justify-content:space-between;gap:35px;margin:14px 0 36px}
+.support-detail-section-head>p{max-width:370px;color:#687b8e;font-size:12px;line-height:1.9;margin:0}
+.support-detail-category-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
+.support-detail-category-grid article{min-height:190px;padding:24px;background:#fff;border:1px solid #dce5ec}
+.support-detail-category-grid article>span{color:#6b91b0;font:9px 'DM Mono';letter-spacing:.13em}
+.support-detail-category-grid h3{margin:24px 0 8px;color:#17324b;font-size:18px}
+.support-detail-category-grid p{margin:0;color:#718295;font-size:11px;line-height:1.85}
+.support-detail-features{padding:100px 0;background:#fff}
+.support-detail-features>div>h2{margin:14px 0 35px;color:#162f47;font-size:clamp(38px,4.7vw,57px);line-height:1.08;letter-spacing:-.06em}
+.support-detail-features h2 em{color:#356e9a}
+.support-detail-feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
+.support-detail-feature-grid article{min-height:190px;padding:25px;border:1px solid #e0e7ed;background:#f8fafb}
+.support-detail-feature-grid article>span{color:#6686a1;font:8px 'DM Mono';letter-spacing:.13em}
+.support-detail-feature-grid h3{margin:27px 0 8px;color:#18344d;font-size:18px}
+.support-detail-feature-grid p{margin:0;color:#6d7f91;font-size:11px;line-height:1.9}
+.support-detail-note{margin-top:18px;padding:16px 18px;border-left:2px solid #9bb8ce;background:#f0f5f8;color:#6a7f91;font-size:10px;line-height:1.9}
+.support-detail-flow{padding:100px 0;background:#eaf0f5}
+.support-detail-flow-grid{display:grid;grid-template-columns:1fr 1fr;gap:70px}
+.support-detail-flow ol{list-style:none;margin:0;padding:0;border-top:1px solid #d4e0e8}
+.support-detail-flow li{display:grid;grid-template-columns:34px 1fr;gap:12px;padding:20px 0;border-bottom:1px solid #d4e0e8}
+.support-detail-flow li:before{counter-increment:step;content:"0" counter(step);grid-row:span 2;color:#6d93b2;font:9px 'DM Mono'}
+.support-detail-flow ol{counter-reset:step}
+.support-detail-flow li b{color:#1a354d;font-size:14px}
+.support-detail-flow li span{color:#718396;font-size:11px;line-height:1.8}
+.support-detail-gift{padding:100px 0;background:#071827;color:#eff5fa}
+.support-detail-gift-inner{max-width:900px}
+.support-detail-gift .ih-overline{color:#8db5d4}
+.support-detail-gift h2{margin:16px 0;color:#f1f6fb;font-size:clamp(40px,5.3vw,64px);line-height:1.05;letter-spacing:-.06em}
+.support-detail-gift h2 em{color:#8dc6e9}
+.support-detail-gift p{max-width:700px;color:#b1c1cf;font-size:13px;line-height:2}
+.support-detail-signature{display:flex;flex-direction:column;gap:5px;margin:30px 0;color:#f0f5fa;font-size:13px;font-weight:800;letter-spacing:.18em}
+.support-detail-signature span,.support-detail-signature b{color:#91a9bd;font:8px 'DM Mono';letter-spacing:.14em}
+.support-detail-gift .support-detail-button{margin-top:12px}
+@media(max-width:760px){
+ .ih-support-home-inner,.support-detail-section-head{align-items:flex-start;flex-direction:column}
+ .ih-support-home{padding:66px 0}
+ .support-detail-hero{padding:68px 0}
+ .support-detail-hero-grid,.support-detail-intro-grid,.support-detail-flow-grid{grid-template-columns:1fr;gap:34px}
+ .support-detail-brand{min-height:290px;grid-row:1}
+ .support-detail-copy h1{font-size:59px}
+ .support-detail-intro,.support-detail-categories,.support-detail-features,.support-detail-flow,.support-detail-gift{padding:72px 0}
+ .support-detail-category-grid,.support-detail-feature-grid{grid-template-columns:1fr}
+ .support-detail-category-grid article,.support-detail-feature-grid article{min-height:150px}
+ .support-detail-category-grid h3,.support-detail-feature-grid h3{margin-top:18px}
+}
